@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeImagesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>{{ request_id }}</requestId>
+    <imagesSet>
+        {{ ami | safe }}
+    </imagesSet>
+</DescribeImagesResponse>

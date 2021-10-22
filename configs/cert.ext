@@ -8,3 +8,4 @@ DNS.1 = ec2.eu-north-1.amazonaws.com
 DNS.2 = scylla-qa-keystore.s3.eu-west-1.amazonaws.com
 DNS.3 = scylla-qa-keystore.s3.us-east-1.amazonaws.com
 DNS.4 = scylla-qa-keystore.s3.amazonaws.com
+DNS.5 = ec2.eu-west-2.amazonaws.com

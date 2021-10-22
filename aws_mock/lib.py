@@ -30,7 +30,7 @@ def get_aws_mock_db() -> Database:
 def get_region_name_from_hostname(hostname: str, default: str = 'eu-central-1') -> str:
     # url_data.hostname = ec2.ap-northeast-3.amazonaws.com
     url_chunks = hostname.split('.', maxsplit=3)
-    if len(url_chunks) != 3 or len(url_chunks[1].split('-')) != 3:
+    if len(url_chunks) != 4 or len(url_chunks[1].split('-')) != 3:
         return default
     return url_chunks[1]
 
