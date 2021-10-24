@@ -41,3 +41,11 @@ If you want to make SCT work with the same CA, you need to run this script in SC
 ## Run Docker container
 
     $ docker run -it --rm -p 443:443 aws_mock
+
+
+# Running aws_mock server with mapped source files:
+
+    $ ./run.sh
+
+It will map local `cert.key`, `cert.crt` and `aws_mock` to the Docker container.
+This script is useful for development.
