@@ -1,15 +1,8 @@
-from __future__ import annotations
-
 import logging
 from uuid import uuid4
-from typing import TYPE_CHECKING
 
 from flask import Flask, request, render_template
-from pymongo import MongoClient
-
-if TYPE_CHECKING:
-    from werkzeug.datastructures import ImmutableMultiDict
-
+from aws_mock.lib import extract_tags, get_collection_name, get_aws_mock_db
 
 LOGGER = logging.getLogger(__name__)
 
@@ -17,20 +10,11 @@ LOGGER = logging.getLogger(__name__)
 app = Flask(__name__)
 
 
-def extract_tags(form: ImmutableMultiDict[str, str]) -> dict[str, str]:
-    tags = {}
-    for i in range(1, 51):  # each resource can have a maximum of 50 tags
-        if key := form.get(f"Tag.{i}.Key"):
-            tags[key] = form[f"Tag.{i}.Value"]
-            continue
-        return tags
-
-
 def do_create_tags(resource_ids: list[str], tags: dict[str, str]) -> str:
     LOGGER.debug("Update resource_ids=%r with tags=%r", resource_ids, tags)
-    db = MongoClient().aws_mock
+    db = get_aws_mock_db()
     for resource_id in resource_ids:
-        collection = db[resource_id.split("-", maxsplit=1)[0]]
+        collection = db[get_collection_name(resource_id)]
         if resource := collection.find_one({"id": resource_id}):
             LOGGER.debug("Update tags for %s", resource_id)
             collection.update_one(

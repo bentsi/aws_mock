@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RunInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>{{ request_id }}</requestId>
+    <reservationId>r-017114b9b4a8f838a</reservationId>
+    <ownerId>797456418907</ownerId>
+    <groupSet/>
+    <instancesSet>
+        {% for item in items %}
+        {{ item | safe}}
+        {% endfor %}
+     </instancesSet>
+</RunInstancesResponse>

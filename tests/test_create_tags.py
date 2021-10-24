@@ -20,7 +20,7 @@ class TestCreateTags(unittest.TestCase):
             "Tag.2.Value": "val2",
         }
 
-    @patch("aws_mock.create_tags.MongoClient")
+    @patch("aws_mock.lib.MongoClient")
     def test_instance_tags(self, mongo: Mock) -> None:
         mongo().aws_mock["i"].find_one.return_value = {"_id": "MOCKED_ID"}
         with self.app as c:
