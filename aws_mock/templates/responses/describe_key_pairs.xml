@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeKeyPairsResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>{{ request_id }}</requestId>
+    <keySet>
+        <item>
+            <keyName>{{ key_name }}</keyName>
+            <keyPairId>{{ key_pair_id }}</keyPairId>
+            <keyFingerprint>13:70:8d:19:e1:a8:74:a2:e0:70:13:46:01:62:5e:78</keyFingerprint>
+            <keyType>rsa</keyType>
+            {% include "responses/tag_set.xml" %}
+        </item>
+    </keySet>
+</DescribeKeyPairsResponse>

@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 from aws_mock.security_groups import app
 
 
-class TestCreateTags(unittest.TestCase):
+class TestSecurityGroups(unittest.TestCase):
     def setUp(self):
         app.config['TESTING'] = True
         app.config['DEBUG'] = True
@@ -12,8 +12,8 @@ class TestCreateTags(unittest.TestCase):
         self.base_url = '/'
 
     @patch("aws_mock.lib.MongoClient")
-    @patch("aws_mock.security_groups.generate_resource_id")
-    def test_create_security_group(self, generate_resource_id: Mock, mongo: Mock) -> None:
+    @patch("aws_mock.security_groups.getrandbits")
+    def test_create_security_group(self, getrandbits: Mock, mongo: Mock) -> None:
         request_body = {
             "Action": "CreateSecurityGroup",
             "Version": "2016-11-15",
@@ -21,7 +21,7 @@ class TestCreateTags(unittest.TestCase):
             "GroupName": "SCT-sg",
             "VpcId": "vpc-0b04728271b54803d",
         }
-        generate_resource_id.return_value = "sg-12345"
+        getrandbits.return_value = 0x12345
         with self.app as c:
             response = c.post(self.base_url, data=request_body)
         assert b"CreateSecurityGroupResponse" in response.data
@@ -60,7 +60,7 @@ class TestCreateTags(unittest.TestCase):
         assert b"</DescribeSecurityGroupsResponse>" in response.data
         assert b"<groupId>sg-12345</groupId>" in response.data
         assert b"<ipPermissions/>" in response.data
-        assert b"</tagSet>" not in response.data
+        assert b"<tagSet/>" in response.data
         mongo().aws_mock["sg"].find.assert_called_once()
 
     @patch("aws_mock.lib.MongoClient")

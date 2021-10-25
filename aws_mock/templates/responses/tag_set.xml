@@ -7,4 +7,6 @@
                 </item>
                 {% endfor %}
             </tagSet>
+            {% else %}
+            <tagSet/>
             {% endif %}

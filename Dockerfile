@@ -22,7 +22,7 @@ COPY cert.crt cert.key configs/nginx.conf /etc/nginx/
 COPY configs/uwsgi.ini /etc/uwsgi/
 COPY configs/mongod.conf /etc/
 COPY configs/supervisord.conf /etc/
-COPY configs/aws_mock.pub /home/ubuntu/.ssh/authorized_keys
+COPY aws_mock/templates/responses/scylla-qa-ec2.pub /home/ubuntu/.ssh/authorized_keys
 
 RUN chmod 700 /home/ubuntu/.ssh
 RUN chown -R ubuntu:ubuntu /home/ubuntu

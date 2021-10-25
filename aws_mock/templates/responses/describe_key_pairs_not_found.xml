@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response><Errors><Error><Code>InvalidKeyPair.NotFound</Code><Message>The key pair '{{ key_name }}' does not exist</Message></Error></Errors><RequestID>{{ request_id }}</RequestID></Response>
