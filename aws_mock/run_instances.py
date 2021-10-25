@@ -40,7 +40,8 @@ def run_instances(request_data: ImmutableMultiDict[str, str]) -> str:
 @app.route("/", methods=['POST'])
 def index():
     action = request.form["Action"]
-    if action == "RunInstances":
-        return run_instances(request_data=request.form)
-    else:
-        return f"Unknown action: {action}", 400
+    match request.form["Action"]:
+        case "RunInstances":
+            return run_instances(request_data=request.form)
+        case _:
+            return f"Unknown action: {action}", 400
