@@ -1,0 +1,21 @@
+<subnetId>{{ subnet_id }}</subnetId>
+<subnetArn>arn:aws:ec2:{{ region_name }}:797456418907:subnet/{{ subnet_id }}</subnetArn>
+<state>available</state>
+<ownerId>797456418907</ownerId>
+<vpcId>{{ vpc_id }}</vpcId>
+<cidrBlock>{{ cid }}</cidrBlock>
+<ipv6CidrBlockAssociationSet>
+    <item>
+        <ipv6CidrBlock>{{ ipv6_cid }}</ipv6CidrBlock>
+        <associationId>subnet-cidr-assoc-0080368dd0ce3013d</associationId>
+        <ipv6CidrBlockState>
+            <state>associating</state>
+        </ipv6CidrBlockState>
+    </item>
+</ipv6CidrBlockAssociationSet>
+<availableIpAddressCount>1019</availableIpAddressCount>
+<availabilityZone>{{ az }}</availabilityZone>
+<availabilityZoneId>{{ az_id }}</availabilityZoneId>
+<defaultForAz>false</defaultForAz>
+<mapPublicIpOnLaunch>false</mapPublicIpOnLaunch>
+<assignIpv6AddressOnCreation>false</assignIpv6AddressOnCreation>

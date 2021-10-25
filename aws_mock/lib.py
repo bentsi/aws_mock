@@ -27,8 +27,36 @@ def get_aws_mock_db() -> Database:
     return MongoClient().aws_mock
 
 
+def aws_extract_request_data(request_data: dict) -> dict:
+    data = {}
+    for item, value in request_data.items():
+        parent = data
+        chunks = item.split('.')
+        last_chunk = chunks.pop()
+        for chunk in chunks:
+            if chunk.isdigit():
+                chunk = int(chunk) - 1
+                if len(parent) > chunk:
+                    current = parent[chunk]
+                else:
+                    current = {}
+                    parent.append(current)
+            else:
+                if chunk in parent:
+                    current = parent[chunk]
+                else:
+                    current = []
+                    parent[chunk] = current
+            parent = current
+        if isinstance(parent, list):
+            parent.append(value)
+        elif isinstance(parent, dict):
+            parent[last_chunk] = value
+    return data
+
+
 def get_region_name_from_hostname(hostname: str, default: str = 'eu-central-1') -> str:
-    # url_data.hostname = ec2.ap-northeast-3.amazonaws.com
+    # ec2.ap-northeast-3.amazonaws.com -> ap-northeast-3
     url_chunks = hostname.split('.', maxsplit=3)
     if len(url_chunks) != 4 or len(url_chunks[1].split('-')) != 3:
         return default
@@ -54,6 +82,13 @@ def get_short_region_name(region_name: str) -> str | None:
     if not chunk.isdigit():
         return None
     return output + chunk
+
+
+def get_az_id(az_name: str) -> str:
+    # ap-northeast-3a -> apne3-az3
+    az_prefix = get_short_region_name(region_name=az_name[:-1])
+    az_postfix = 'az' + str(ord(az_name[-1]) - ord('a') + 1)
+    return az_prefix + '-' + az_postfix
 
 
 def get_aws_mock_server_ip() -> str:
