@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeVpcsResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>{{ request_id }}</requestId>
+    {% if return_content -%}
+        <vpcSet>
+            <item>
+                <vpcId>{{ vpc_id | safe }}</vpcId>
+                <ownerId>797456418907</ownerId>
+                <state>available</state>
+                <cidrBlock>{{ cidr | safe }}</cidrBlock>
+                <cidrBlockAssociationSet>
+                    <item>
+                        <cidrBlock>{{ cidr | safe }}</cidrBlock>
+                        <associationId>vpc-cidr-assoc-0ac02a49bc94bd981</associationId>
+                        <cidrBlockState>
+                            <state>associated</state>
+                       </cidrBlockState>
+                    </item>
+                </cidrBlockAssociationSet>
+                <ipv6CidrBlockAssociationSet>
+                    <item>
+                        <ipv6CidrBlock>2406:da16:5ad:8800::/56</ipv6CidrBlock>
+                        <associationId>vpc-cidr-assoc-05c2e162f001f34e0</associationId>
+                        <ipv6CidrBlockState>
+                            <state>associated</state>
+                        </ipv6CidrBlockState>
+                        <ipv6Pool>Amazon</ipv6Pool>
+                        <networkBorderGroup>ap-northeast-3</networkBorderGroup>
+                    </item>
+                </ipv6CidrBlockAssociationSet>
+                <dhcpOptionsId>dopt-d8b442b1</dhcpOptionsId>
+                <tagSet>
+                    <item>
+                        <key>Name</key>
+                                <value>SCT-vpc</value>
+                    </item>
+                </tagSet>
+                <instanceTenancy>default</instanceTenancy>
+                <isDefault>false</isDefault>
+            </item>
+    </vpcSet>
+    {% else -%}
+        <vpcSet/>
+    {% endif %}
+</DescribeVpcsResponse>
