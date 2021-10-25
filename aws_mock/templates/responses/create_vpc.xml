@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CreateVpcResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>{{ request_id | safe }}</requestId>
+    <vpc>
+        <vpcId>{{ vpc_id | safe }}</vpcId>
+        <ownerId>797456418907</ownerId>
+        <state>pending</state>
+        <cidrBlock>{{ cidr | safe }}</cidrBlock>
+        <cidrBlockAssociationSet>
+        <item>
+            <cidrBlock>{{ cidr | safe }}</cidrBlock>
+            <associationId>vpc-cidr-assoc-0ac02a49bc94bd981</associationId>
+            <cidrBlockState>
+                <state>associated</state>
+            </cidrBlockState>
+            </item>
+        </cidrBlockAssociationSet>
+        <ipv6CidrBlockAssociationSet>
+            <item>
+                <ipv6CidrBlock> </ipv6CidrBlock>
+                <associationId>vpc-cidr-assoc-05c2e162f001f34e0</associationId>
+                <ipv6CidrBlockState>
+                    <state>associating</state>
+                </ipv6CidrBlockState>
+                <ipv6Pool>Amazon</ipv6Pool>
+                <networkBorderGroup>ap-northeast-3</networkBorderGroup>
+            </item>
+        </ipv6CidrBlockAssociationSet>
+        <dhcpOptionsId>dopt-d8b442b1</dhcpOptionsId>
+        <instanceTenancy>default</instanceTenancy>
+        <isDefault>false</isDefault>
+    </vpc>
+</CreateVpcResponse>
