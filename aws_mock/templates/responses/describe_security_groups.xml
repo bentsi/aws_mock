@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeSecurityGroupsResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>{{ request_id }}</requestId>
+    <securityGroupInfo>
+        {% for item in items %}
+        {{ item | safe }}
+        {% endfor %}
+    </securityGroupInfo>
+</DescribeSecurityGroupsResponse>

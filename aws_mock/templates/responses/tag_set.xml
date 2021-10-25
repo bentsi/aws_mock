@@ -1,0 +1,10 @@
+            {% if tags %}
+            <tagSet>
+                {% for key, value in tags.items() %}
+                <item>
+                    <key>{{ key | safe }}</key>
+                    <value>{{ value | safe }}</value>
+                </item>
+                {% endfor %}
+            </tagSet>
+            {% endif %}

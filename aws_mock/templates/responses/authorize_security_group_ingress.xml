@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuthorizeSecurityGroupIngressResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>{{ request_id }}</requestId>
+    <return>true</return>
+    <securityGroupRuleSet>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-001e8d4f6d3f16b62</securityGroupRuleId>
+            <description>Allow ALL traffic inside the Security group</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>-1</ipProtocol>
+            <fromPort>-1</fromPort>
+            <toPort>-1</toPort>
+            <referencedGroupInfo>
+                <userId>797456418907</userId>
+                <groupId>{{ security_group_id }}</groupId>
+            </referencedGroupInfo>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-00b08812119957695</securityGroupRuleId>
+            <description>SSH connectivity to the instances</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>22</fromPort>
+            <toPort>22</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-00b9d5e2177ac1350</securityGroupRuleId>
+            <description>SSH connectivity to the instances</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>22</fromPort>
+            <toPort>22</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0175c49f23ee5ba1e</securityGroupRuleId>
+            <description>Allow Grafana for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>3000</fromPort>
+            <toPort>3000</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-01b5d58328439254c</securityGroupRuleId>
+            <description>Allow Grafana for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>3000</fromPort>
+            <toPort>3000</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-01f36ae5f03577906</securityGroupRuleId>
+            <description>Allow CQL for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9042</fromPort>
+            <toPort>9042</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-026c9afdaafd87b16</securityGroupRuleId>
+            <description>Allow CQL for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9042</fromPort>
+            <toPort>9042</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0291a8f8c13530223</securityGroupRuleId>
+            <description>Allow SSL CQL for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9142</fromPort>
+            <toPort>9142</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-032782b439904f270</securityGroupRuleId>
+            <description>Allow SSL CQL for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9142</fromPort>
+            <toPort>9142</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0330f7c1ff3b24e55</securityGroupRuleId>
+            <description>Allow node_exporter on Db nodes for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9100</fromPort>
+            <toPort>9100</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-037e909ef06f6417a</securityGroupRuleId>
+            <description>Allow node_exporter on Db nodes for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9100</fromPort>
+            <toPort>9100</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-03c6f0d77f80a21b6</securityGroupRuleId>
+            <description>Allow Alternator for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>8080</fromPort>
+            <toPort>8080</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-047f79bc8f0491773</securityGroupRuleId>
+            <description>Allow Alternator for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>8080</fromPort>
+            <toPort>8080</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-053940df73e491009</securityGroupRuleId>
+            <description>Allow Prometheus for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9090</fromPort>
+            <toPort>9090</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0555d2fe19a776a04</securityGroupRuleId>
+            <description>Allow  Prometheus for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9090</fromPort>
+            <toPort>9090</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-055a9c968f3599cd4</securityGroupRuleId>
+            <description>Allow Prometheus Alert Manager For All</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9093</fromPort>
+            <toPort>9093</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-055d49c04969087cc</securityGroupRuleId>
+            <description>Allow Prometheus Alert Manager For All</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9093</fromPort>
+            <toPort>9093</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0627cd7861446e97f</securityGroupRuleId>
+            <description>Allow Prometheus API for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9180</fromPort>
+            <toPort>9180</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-066c1ec2412051f3c</securityGroupRuleId>
+            <description>Allow Prometheus API for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>9180</fromPort>
+            <toPort>9180</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0675226eda1ddc244</securityGroupRuleId>
+            <description>Allow Inter-node communication (RPC) for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>7000</fromPort>
+            <toPort>7000</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-07b6e254cc15b46c8</securityGroupRuleId>
+            <description>Allow Inter-node communication (RPC) for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>7000</fromPort>
+            <toPort>7000</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0809aea19b02e9940</securityGroupRuleId>
+            <description>Allow SSL inter-node communication (RPC) for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>7001</fromPort>
+            <toPort>7001</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-080b677f6bd8f5210</securityGroupRuleId>
+            <description>Allow SSL inter-node communication (RPC) for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>7001</fromPort>
+            <toPort>7001</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-097dbaf550fe31d0f</securityGroupRuleId>
+            <description>Allow JMX management for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>7199</fromPort>
+            <toPort>7199</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-099a6442b09512562</securityGroupRuleId>
+            <description>Allow JMX management for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>7199</fromPort>
+            <toPort>7199</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-09f6c1dbf37f762cd</securityGroupRuleId>
+            <description>Allow Scylla Manager Agent REST API  for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>10001</fromPort>
+            <toPort>10001</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-09fad8076627d3cb8</securityGroupRuleId>
+            <description>Allow Scylla Manager Agent REST API for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>10001</fromPort>
+            <toPort>10001</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0ac9fc9d7c3b279fc</securityGroupRuleId>
+            <description>Allow Scylla Manager Agent version 2.1 Prometheus API for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>56090</fromPort>
+            <toPort>56090</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0b06e65effc027d61</securityGroupRuleId>
+            <description>Allow Scylla Manager Agent version 2.1 Prometheus API for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>56090</fromPort>
+            <toPort>56090</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0b35f4ead32a3c1e2</securityGroupRuleId>
+            <description>Allow traffic from Scylla Cloud lab while VPC peering for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>-1</ipProtocol>
+            <fromPort>-1</fromPort>
+            <toPort>-1</toPort>
+            <cidrIpv4>172.0.0.0/11</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0d045a9ec16562c3d</securityGroupRuleId>
+            <description>Allow Scylla Manager HTTP API for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>5080</fromPort>
+            <toPort>5080</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0d1268167314551db</securityGroupRuleId>
+            <description>Allow Scylla Manager HTTP API for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>5080</fromPort>
+            <toPort>5080</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0d5092283b6c310a9</securityGroupRuleId>
+            <description>Allow Scylla Manager HTTPS API for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>5443</fromPort>
+            <toPort>5443</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0df96fe9000fbd99b</securityGroupRuleId>
+            <description>Allow Scylla Manager HTTPS API for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>5443</fromPort>
+            <toPort>5443</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0e1b7a013071cb8d2</securityGroupRuleId>
+            <description>Allow Scylla Manager Agent Prometheus API for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>5090</fromPort>
+            <toPort>5090</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0e299e8184bf9b36a</securityGroupRuleId>
+            <description>Allow Scylla Manager Agent Prometheus API for ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>5090</fromPort>
+            <toPort>5090</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0f50c7ce13ce51d9f</securityGroupRuleId>
+            <description>Allow Scylla Manager pprof Debug For ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>5112</fromPort>
+            <toPort>5112</toPort>
+            <cidrIpv4>0.0.0.0/0</cidrIpv4>
+        </item>
+        <item>
+            <groupOwnerId>797456418907</groupOwnerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <securityGroupRuleId>sgr-0f77689dc9011c796</securityGroupRuleId>
+            <description>Allow Scylla Manager pprof Debug For ALL</description>
+            <isEgress>false</isEgress>
+            <ipProtocol>tcp</ipProtocol>
+            <fromPort>5112</fromPort>
+            <toPort>5112</toPort>
+            <cidrIpv6>::/0</cidrIpv6>
+        </item>
+    </securityGroupRuleSet>
+</AuthorizeSecurityGroupIngressResponse>

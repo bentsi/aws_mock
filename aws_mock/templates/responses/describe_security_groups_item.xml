@@ -1,0 +1,391 @@
+        <item>
+            <ownerId>797456418907</ownerId>
+            <groupId>{{ security_group_id }}</groupId>
+            <groupName>SCT-sg</groupName>
+            <groupDescription>Security group that is used by SCT</groupDescription>
+            <vpcId>vpc-0b04728271b54803d</vpcId>
+            {% if is_ingress_rules_added -%}
+            <ipPermissions>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>8080</fromPort>
+                    <toPort>8080</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Alternator for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow Alternator for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>7199</fromPort>
+                    <toPort>7199</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow JMX management for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow JMX management for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>7001</fromPort>
+                    <toPort>7001</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow SSL inter-node communication (RPC) for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow SSL inter-node communication (RPC) for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>5443</fromPort>
+                    <toPort>5443</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Scylla Manager HTTPS API for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow Scylla Manager HTTPS API for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>9093</fromPort>
+                    <toPort>9093</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Prometheus Alert Manager For All</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow Prometheus Alert Manager For All</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>9090</fromPort>
+                    <toPort>9090</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Prometheus for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow  Prometheus for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>7000</fromPort>
+                    <toPort>7000</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Inter-node communication (RPC) for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow Inter-node communication (RPC) for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>56090</fromPort>
+                    <toPort>56090</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Scylla Manager Agent version 2.1 Prometheus API for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow Scylla Manager Agent version 2.1 Prometheus API for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>9180</fromPort>
+                    <toPort>9180</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Prometheus API for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow Prometheus API for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>5112</fromPort>
+                    <toPort>5112</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Scylla Manager pprof Debug For ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow Scylla Manager pprof Debug For ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>5080</fromPort>
+                    <toPort>5080</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Scylla Manager HTTP API for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow Scylla Manager HTTP API for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>-1</ipProtocol>
+                    <groups>
+                        <item>
+                            <userId>797456418907</userId>
+                            <groupId>sg-0d3de9bc408daec47</groupId>
+                            <description>Allow ALL traffic inside the Security group</description>
+                        </item>
+                    </groups>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>172.0.0.0/11</cidrIp>
+                            <description>Allow traffic from Scylla Cloud lab while VPC peering for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges/>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>22</fromPort>
+                    <toPort>22</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>SSH connectivity to the instances</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>SSH connectivity to the instances</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>10001</fromPort>
+                    <toPort>10001</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Scylla Manager Agent REST API  for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow Scylla Manager Agent REST API for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>3000</fromPort>
+                    <toPort>3000</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Grafana for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow Grafana for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>9142</fromPort>
+                    <toPort>9142</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow SSL CQL for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow SSL CQL for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>5090</fromPort>
+                    <toPort>5090</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow Scylla Manager Agent Prometheus API for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow Scylla Manager Agent Prometheus API for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>9100</fromPort>
+                    <toPort>9100</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow node_exporter on Db nodes for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow node_exporter on Db nodes for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+                <item>
+                    <ipProtocol>tcp</ipProtocol>
+                    <fromPort>9042</fromPort>
+                    <toPort>9042</toPort>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                            <description>Allow CQL for ALL</description>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                            <description>Allow CQL for ALL</description>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+            </ipPermissions>
+            {%- else -%}
+            <ipPermissions/>
+            {%- endif %}
+            <ipPermissionsEgress>
+                <item>
+                    <ipProtocol>-1</ipProtocol>
+                    <groups/>
+                    <ipRanges>
+                        <item>
+                            <cidrIp>0.0.0.0/0</cidrIp>
+                        </item>
+                    </ipRanges>
+                    <ipv6Ranges>
+                        <item>
+                            <cidrIpv6>::/0</cidrIpv6>
+                        </item>
+                    </ipv6Ranges>
+                    <prefixListIds/>
+                </item>
+            </ipPermissionsEgress>
+            {% include "responses/tag_set.xml" %}
+        </item>
