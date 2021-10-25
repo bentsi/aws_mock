@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeAvailabilityZonesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+  <requestId>{{ request_id }}</requestId>
+  <availabilityZoneInfo>
+    <item>
+      <zoneName>{{ region_name }}a</zoneName>
+      <zoneId>{{ short_region_name }}-az3</zoneId>
+      <zoneState>available</zoneState>
+      <regionName>{{ region_name }}</regionName>
+      <groupName>{{ region_name }}</groupName>
+      <optInStatus>opt-in-not-required</optInStatus>
+      <networkBorderGroup>{{ region_name }}</networkBorderGroup>
+      <zoneType>availability-zone</zoneType>
+      <messageSet/>
+    </item>
+    <item>
+      <zoneName>{{ region_name }}b</zoneName>
+      <zoneId>{{ short_region_name }}-az1</zoneId>
+      <zoneState>available</zoneState>
+      <regionName>{{ region_name }}</regionName>
+      <groupName>{{ region_name }}</groupName>
+      <optInStatus>opt-in-not-required</optInStatus>
+      <networkBorderGroup>{{ region_name }}</networkBorderGroup>
+      <zoneType>availability-zone</zoneType>
+      <messageSet/>
+    </item>
+    <item>
+      <zoneName>{{ region_name }}c</zoneName>
+      <zoneId>{{ short_region_name }}-az2</zoneId>
+      <zoneState>available</zoneState>
+      <regionName>{{ region_name }}</regionName>
+      <groupName>{{ region_name }}</groupName>
+      <optInStatus>opt-in-not-required</optInStatus>
+      <networkBorderGroup>{{ region_name }}</networkBorderGroup>
+      <zoneType>availability-zone</zoneType>
+      <messageSet/>
+    </item>
+  </availabilityZoneInfo>
+</DescribeAvailabilityZonesResponse>
