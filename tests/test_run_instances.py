@@ -1,5 +1,7 @@
 import unittest
-
+import boto3
+from bs4 import BeautifulSoup
+from unittest.mock import Mock, patch
 from aws_mock.run_instances import app
 
 
@@ -41,6 +43,19 @@ class TestRunInstances(unittest.TestCase):
             "ClientToken": "b024bd1f-f215-4b4c-8043-59d59104cb35",
         }
 
-    def test_all(self):
+    @patch("aws_mock.lib.MongoClient")
+    def test_all(self, mongo: Mock):
         response = self.app.post(self.base_url, data=self.request_body)
         response_text = response.data.decode()
+        soup = BeautifulSoup(response_text, "xml")
+        mongo().aws_mock["i"].insert.assert_called_once()
+        self.assertEqual(soup.instancesSet.item.imageId.text, self.request_body["ImageId"])
+
+    def test_with_boto3(self):
+        ec2 = boto3.resource("ec2", region_name="eu-north-1")
+        expected_image_id = 'ami-008c29ad053756fc9'
+        result = ec2.create_instances(ImageId=expected_image_id, MinCount=1, MaxCount=1)
+        assert len(result) == 1
+        instance = result[0]
+        assert instance.image_id == expected_image_id
+        print(result)
