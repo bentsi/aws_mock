@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock, patch
 
-from aws_mock.key_pairs import app
+from aws_mock.main import app
 
 
 class TestKeyPairs(unittest.TestCase):
@@ -67,7 +67,7 @@ class TestKeyPairs(unittest.TestCase):
         mongo().aws_mock["key"].find_one.assert_called_once()
 
     @patch("aws_mock.lib.MongoClient")
-    @patch("aws_mock.key_pairs.getrandbits")
+    @patch("aws_mock.lib.getrandbits")
     def test_import_key_pair(self, getrandbits: Mock, mongo: Mock) -> None:
         request_body = {
             "Action": "ImportKeyPair",

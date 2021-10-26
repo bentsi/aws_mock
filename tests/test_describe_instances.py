@@ -1,8 +1,9 @@
 import unittest
-import boto3
-from bs4 import BeautifulSoup
 from unittest.mock import Mock, patch
-from aws_mock.describe_instances import app
+
+import boto3
+
+from aws_mock.main import app
 
 
 class TestRunInstances(unittest.TestCase):

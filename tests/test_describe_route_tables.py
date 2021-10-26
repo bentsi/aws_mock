@@ -3,10 +3,10 @@ from unittest.mock import Mock, patch
 
 import boto3
 
-from aws_mock.create_route_table import app
+from aws_mock.main import app
 
 
-class TestCreateSubnet(unittest.TestCase):
+class TestDescribeRouteTables(unittest.TestCase):
     region_name = 'eu-north-1'
 
     def setUp(self):
@@ -58,7 +58,7 @@ class TestCreateSubnet(unittest.TestCase):
         route_table_name = 'my-subnet'
         result = self.aws_client.describe_route_tables(Filters=[{"Name": "tag:Name",
                                                                  "Values": [route_table_name]}])
-        assert result['routeTableSet']
+        assert result['RouteTables']
         result = self.aws_client.describe_route_tables(Filters=[{"Name": "vpc-id",
                                                                  "Values": ['vpc-0b04728271b54803d']}])
-        assert result['routeTableSet']
+        assert result['RouteTables']

@@ -1,13 +1,9 @@
-{% autoescape false %}
 <?xml version="1.0" encoding="UTF-8"?>
 <DescribeSubnetsResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
     <requestId>{{ request_id }}</requestId>
     <subnetSet>
-    {% for subnet_body in subnet_bodies %}
-        <item>
-        {{ subnet_body }}
-        </item>
-    {% endfor %}
+        {% for item in items %}
+        {{ item | safe }}
+        {% endfor %}
     </subnetSet>
 </DescribeSubnetsResponse>
-{% endautoescape %}

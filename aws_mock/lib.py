@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import socket
+from random import getrandbits
 from typing import TYPE_CHECKING
 
 from pymongo import MongoClient
 
 if TYPE_CHECKING:
     from pymongo.database import Database
+    from pymongo.collection import Collection
     from werkzeug.datastructures import ImmutableMultiDict
 
 
@@ -19,12 +21,16 @@ def extract_tags(form: ImmutableMultiDict[str, str]) -> dict[str, str]:
         return tags
 
 
+def get_aws_mock_db() -> Database:
+    return MongoClient().aws_mock
+
+
 def get_collection_name(resource_id: str) -> str:
     return resource_id.split("-", maxsplit=1)[0]
 
 
-def get_aws_mock_db() -> Database:
-    return MongoClient().aws_mock
+def get_collection_by_resource_id(resource_id: str) -> Collection:
+    return get_aws_mock_db()[get_collection_name(resource_id=resource_id)]
 
 
 def aws_extract_request_data(request_data: dict) -> dict:
@@ -84,12 +90,15 @@ def get_short_region_name(region_name: str) -> str | None:
     return output + chunk
 
 
-def get_az_id(az_name: str) -> str:
+def get_availability_zone_id(availability_zone: str) -> str:
     # ap-northeast-3a -> apne3-az3
-    az_prefix = get_short_region_name(region_name=az_name[:-1])
-    az_postfix = 'az' + str(ord(az_name[-1]) - ord('a') + 1)
-    return az_prefix + '-' + az_postfix
+    az_prefix = get_short_region_name(region_name=availability_zone[:-1])
+    return f"{az_prefix}-az{ord(availability_zone[-1]) - ord('a') + 1}"
 
 
 def get_aws_mock_server_ip() -> str:
     return socket.gethostbyname(socket.gethostname())
+
+
+def generate_resource_id(resource_type: str, length: int = 17) -> str:
+    return f"{resource_type}-{getrandbits(length << 2):x}"

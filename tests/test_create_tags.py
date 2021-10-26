@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock, patch
 
-from aws_mock.create_tags import app
+from aws_mock.main import app
 
 
 class TestCreateTags(unittest.TestCase):

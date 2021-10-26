@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DescribeVpcsResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
     <requestId>{{ request_id }}</requestId>
-    {% if return_content -%}
+    {% if id -%}
         <vpcSet>
             <item>
-                <vpcId>{{ vpc_id | safe }}</vpcId>
+                <vpcId>{{ id }}</vpcId>
                 <ownerId>797456418907</ownerId>
                 <state>available</state>
-                <cidrBlock>{{ cidr | safe }}</cidrBlock>
+                <cidrBlock>10.0.0.0/16</cidrBlock>
                 <cidrBlockAssociationSet>
                     <item>
-                        <cidrBlock>{{ cidr | safe }}</cidrBlock>
+                        <cidrBlock>10.0.0.0/16</cidrBlock>
                         <associationId>vpc-cidr-assoc-0ac02a49bc94bd981</associationId>
                         <cidrBlockState>
                             <state>associated</state>
@@ -29,12 +29,7 @@
                     </item>
                 </ipv6CidrBlockAssociationSet>
                 <dhcpOptionsId>dopt-d8b442b1</dhcpOptionsId>
-                <tagSet>
-                    <item>
-                        <key>Name</key>
-                                <value>SCT-vpc</value>
-                    </item>
-                </tagSet>
+                {% include "responses/tag_set.xml" %}
                 <instanceTenancy>default</instanceTenancy>
                 <isDefault>false</isDefault>
             </item>

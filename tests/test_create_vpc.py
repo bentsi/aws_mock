@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock, patch
 
-from aws_mock.create_vpc import app
+from aws_mock.main import app
 
 
 class TestCreateVpc(unittest.TestCase):

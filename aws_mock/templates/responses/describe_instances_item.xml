@@ -24,7 +24,7 @@
                     <subnetId>subnet-0a6f57a00ff595d6a</subnetId>
                     <vpcId>vpc-0718185435d3a0b5a</vpcId>
                     <privateIpAddress>10.0.1.30</privateIpAddress>
-                    <ipAddress>16.170.148.95</ipAddress>
+                    <ipAddress>{{ public_ip }}</ipAddress>
                     <sourceDestCheck>true</sourceDestCheck>
                     <groupSet>
                         <item>
@@ -101,7 +101,7 @@
                                 <networkCardIndex>0</networkCardIndex>
                             </attachment>
                             <association>
-                                <publicIp>16.170.148.95</publicIp>
+                                <publicIp>{{ public_ip }}</publicIp>
                                 <publicDnsName/>
                                 <ipOwnerId>amazon</ipOwnerId>
                             </association>
@@ -110,7 +110,7 @@
                                     <privateIpAddress>10.0.1.30</privateIpAddress>
                                     <primary>true</primary>
                                     <association>
-                                        <publicIp>16.170.148.95</publicIp>
+                                        <publicIp>{{ public_ip }}</publicIp>
                                         <publicDnsName/>
                                         <ipOwnerId>amazon</ipOwnerId>
                                     </association>

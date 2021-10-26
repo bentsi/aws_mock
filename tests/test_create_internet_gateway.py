@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 import boto3
 
-from aws_mock.create_internet_gateway import app
+from aws_mock.main import app
 
 
 class TestCreateSubnet(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestCreateSubnet(unittest.TestCase):
     def test_create_gateway(self, mongo: Mock) -> None:
         self._create_gateway()
         gateway_collection = mongo().aws_mock["igw"]
-        gateway_collection.insert.assert_called_once()
+        gateway_collection.insert_one.assert_called_once()
 
     @patch("aws_mock.lib.MongoClient")
     def test_describe_gateways(self, mongo: Mock) -> None:
@@ -55,19 +55,20 @@ class TestCreateSubnet(unittest.TestCase):
         gateway_collection.find.assert_called_once()
 
     def test_create_gateway_with_boto3(self):
-        ec2 = boto3.resource("ec2", region_name="eu-north-1")
+        ec2 = boto3.client("ec2", region_name="eu-north-1")
         result = ec2.create_internet_gateway()
-        assert result['internetGateway']
+        assert result['InternetGateway']
 
     def test_describe_gateways_with_boto3(self):
         gateway_name = 'my-gateway'
-        result = self.aws_resource.describe_internet_gateways(Filters=[{"Name": "tag:Name", "Values": [gateway_name]}])
-        assert not result['gatewaySet']
-        result = self.aws_resource.create_internet_gateway()
-        gateway_id = result["Subnet"]["SubnetId"]
-        gateway = self.aws_resource.Subnet(gateway_id)
+        result = self.aws_client.describe_internet_gateways(Filters=[{"Name": "tag:Name", "Values": [gateway_name]}])
+        assert not result['InternetGateways']
+        result = self.aws_client.create_internet_gateway()
+        gateway_id = result["InternetGateway"]["InternetGatewayId"]
+        gateway = self.aws_resource.InternetGateway(gateway_id)
         gateway.create_tags(Tags=[{"Key": "Name", "Value": gateway_name}])
-        result = self.aws_resource.describe_internet_gateways(Filters=[{"Name": "tag:Name", "Values": [gateway_name]}])
-        assert result['gatewaySet']
+        result = self.aws_client.describe_internet_gateways(Filters=[{"Name": "tag:Name", "Values": [gateway_name]}])
+        assert result['InternetGateways']
         result = gateway.attach_to_vpc(VpcId='vpc-00000000001')
-        assert result['return']
+        print(result)
+        assert result['ResponseMetadata']

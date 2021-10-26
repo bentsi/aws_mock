@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock, patch
 
-from aws_mock.security_groups import app
+from aws_mock.main import app
 
 
 class TestSecurityGroups(unittest.TestCase):
@@ -12,7 +12,7 @@ class TestSecurityGroups(unittest.TestCase):
         self.base_url = '/'
 
     @patch("aws_mock.lib.MongoClient")
-    @patch("aws_mock.security_groups.getrandbits")
+    @patch("aws_mock.lib.getrandbits")
     def test_create_security_group(self, getrandbits: Mock, mongo: Mock) -> None:
         request_body = {
             "Action": "CreateSecurityGroup",

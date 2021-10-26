@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 import boto3
 
-from aws_mock.create_subnet import app
+from aws_mock.main import app
 
 
 class TestCreateSubnet(unittest.TestCase):
@@ -60,7 +60,7 @@ class TestCreateSubnet(unittest.TestCase):
     def test_create_subnet(self, mongo: Mock) -> None:
         self._create_subnet()
         subnet_collection = mongo().aws_mock["subnet"]
-        subnet_collection.insert.assert_called_once()
+        subnet_collection.insert_one.assert_called_once()
 
     @patch("aws_mock.lib.MongoClient")
     def test_describe_subnets(self, mongo: Mock) -> None:
@@ -86,23 +86,24 @@ class TestCreateSubnet(unittest.TestCase):
 
     def test_describe_subnets_with_boto3(self):
         subnet_name = 'my-subnet'
-        result = self.aws_resource.describe_subnets(Filters=[{"Name": "tag:Name", "Values": [subnet_name]}])
-        assert not result['subnetSet']
-        result = self.aws_resource.create_subnet(
+        result = self.aws_client.describe_subnets(Filters=[{"Name": "tag:Name", "Values": [subnet_name]}])
+        assert not result['Subnets']
+        result = self.aws_client.create_subnet(
             CidrBlock='10.0.0.0/24',
             Ipv6CidrBlock='2406:da16:5be:8800::/64',
             AvailabilityZone=f'{self.region_name}a',
             VpcId='vpc-0000000001',
         )
         subnet_id = result["Subnet"]["SubnetId"]
+        print(f"{result=}")
         subnet = self.aws_resource.Subnet(subnet_id)
         subnet.create_tags(Tags=[{"Key": "Name", "Value": subnet_name}])
-        result = self.aws_resource.describe_subnets(Filters=[{"Name": "tag:Name", "Values": [subnet_name]}])
-        assert result['subnetSet']
+        result = self.aws_client.describe_subnets(Filters=[{"Name": "tag:Name", "Values": [subnet_name]}])
+        assert result['Subnets']
 
     def test_modify_subnet_attribute_with_boto3(self):
         response = self.aws_client.modify_subnet_attribute(
             MapPublicIpOnLaunch={"Value": True},
             SubnetId='subnet-0000000001',
         )
-        assert response['return']
+        assert response["ResponseMetadata"]

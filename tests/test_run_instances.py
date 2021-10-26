@@ -1,8 +1,10 @@
 import unittest
+from unittest.mock import Mock, patch
+
 import boto3
 from bs4 import BeautifulSoup
-from unittest.mock import Mock, patch
-from aws_mock.run_instances import app
+
+from aws_mock.main import app
 
 
 class TestRunInstances(unittest.TestCase):
@@ -48,7 +50,7 @@ class TestRunInstances(unittest.TestCase):
         response = self.app.post(self.base_url, data=self.request_body)
         response_text = response.data.decode()
         soup = BeautifulSoup(response_text, "xml")
-        mongo().aws_mock["i"].insert.assert_called_once()
+        mongo().aws_mock["i"].insert_one.assert_called_once()
         self.assertEqual(soup.instancesSet.item.imageId.text, self.request_body["ImageId"])
 
     def test_with_boto3(self):

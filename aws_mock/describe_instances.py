@@ -1,11 +1,11 @@
 import logging
-from uuid import uuid4
-from flask import Flask, request, render_template
+
+from flask import render_template
 from werkzeug.datastructures import ImmutableMultiDict
-from aws_mock.lib import get_collection_name, get_aws_mock_db
+
+from aws_mock.lib import get_collection_name, get_aws_mock_db, get_aws_mock_server_ip
 
 
-app = Flask(__name__)
 LOGGER = logging.getLogger(__name__)
 
 
@@ -16,23 +16,21 @@ def describe_instances(request_data: ImmutableMultiDict[str, str]) -> str:
     """
     instance_ids = [request_data[key] for key in request_data if key.startswith("InstanceId")]
     if not instance_ids:  # no instances provided return empty list
-        return render_template("responses/describe_instances.xml", instances=[], request_id=str(uuid4()))
+        return render_template("responses/describe_instances.xml", instances=[])
+
     LOGGER.debug(f"Looking for instances with ids: %s ...", instance_ids)
     db = get_aws_mock_db()
     collection = db[get_collection_name(instance_ids[0])]
     found_instances = list(collection.find({"id": {"$in":  instance_ids}}))
+
+    aws_mock_ip = get_aws_mock_server_ip()
+
     LOGGER.debug("Found instances: %s", found_instances)
     items = []
     for instance_id in [doc["id"] for doc in found_instances]:
-        items.append(render_template("responses/describe_instances_item.xml", instance_id=instance_id))
-    return render_template("responses/describe_instances.xml", instances=items,  request_id=str(uuid4()))
-
-
-@app.route("/", methods=['POST'])
-def index():
-    action = request.form["Action"]
-    match request.form["Action"]:
-        case "DescribeInstances":
-            return describe_instances(request_data=request.form)
-        case _:
-            return f"Unknown action: {action}", 400
+        items.append(render_template(
+            "responses/describe_instances_item.xml",
+            instance_id=instance_id,
+            public_ip=aws_mock_ip,
+        ))
+    return render_template("responses/describe_instances.xml", instances=items)
