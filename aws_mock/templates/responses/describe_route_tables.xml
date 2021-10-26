@@ -1,0 +1,39 @@
+{% autoescape false %}
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeRouteTablesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>{{ request_id }}</requestId>
+    <routeTableSet>
+        <item>
+            <routeTableId>{{ route_table_id }}</routeTableId>
+            <vpcId> {{ vpc_id }}</vpcId>
+            <ownerId>797456418907</ownerId>
+                <routeSet>
+                    <item>
+                        <destinationCidrBlock>10.0.0.0/16</destinationCidrBlock>
+                               <gatewayId>local</gatewayId>
+                        <state>active</state>
+                               <origin>CreateRouteTable</origin>
+                    </item>
+                    <item>
+                        <destinationIpv6CidrBlock>2406:da16:5be:8800::/56</destinationIpv6CidrBlock>
+                            <gatewayId>local</gatewayId>
+                            <state>active</state>
+                            <origin>CreateRouteTable</origin>
+                    </item>
+                </routeSet>
+            <associationSet>
+                <item>
+                    <routeTableAssociationId>rtbassoc-0e8315df6dcd8d4c1</routeTableAssociationId>
+                    <routeTableId>{{ route_table_id }}</routeTableId>
+                    <main>true</main>
+                    <associationState>
+                        <state>associated</state>
+                    </associationState>
+                </item>
+            </associationSet>
+            <propagatingVgwSet/>
+            <tagSet/>
+        </item>
+    </routeTableSet>
+</DescribeRouteTablesResponse>
+{% endautoescape %}
