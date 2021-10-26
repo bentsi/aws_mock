@@ -1,0 +1,13 @@
+{% autoescape false %}
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeInternetGatewaysResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>{{ request_id }}</requestId>
+    <internetGatewaySet>
+    {% for gateway_body in gateway_bodies %}
+        <item>
+        {{ gateway_body }}
+        </item>
+    {% endfor %}
+    </internetGatewaySet>
+</DescribeInternetGatewaysResponse>
+{% endautoescape %}
