@@ -19,7 +19,10 @@ def run_instances(request_data: ImmutableMultiDict[str, str]) -> str:
     items = []
     for _ in range(num_instances):
         instance_id = generate_resource_id(resource_type="i")
-        db[get_collection_name(instance_id)].insert_one({"id": instance_id, "tags": extract_tags(request_data)})
+        db[get_collection_name(instance_id)].insert_one({
+            "id": instance_id,
+            "tags": extract_tags(request_data, prefix="TagSpecification.1."),
+        })
         items.append(render_template("responses/run_instances_item.xml", instance_id=instance_id))
 
     return render_template("responses/run_instances.xml", items=items)

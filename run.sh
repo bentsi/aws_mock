@@ -9,4 +9,5 @@ docker run -it --rm \
   --mount type=bind,source="${ROOT}/cert.crt",target=/etc/nginx/cert.crt,readonly \
   --mount type=bind,source="${ROOT}/aws_mock",target=/src/aws_mock \
   -p 443:443 \
+  --name aws_mock \
   aws_mock

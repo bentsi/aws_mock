@@ -12,11 +12,11 @@ if TYPE_CHECKING:
     from werkzeug.datastructures import ImmutableMultiDict
 
 
-def extract_tags(form: ImmutableMultiDict[str, str]) -> dict[str, str]:
+def extract_tags(form: ImmutableMultiDict[str, str], prefix: str = "") -> dict[str, str]:
     tags = {}
     for i in range(1, 51):  # each resource can have a maximum of 50 tags
-        if key := form.get(f"Tag.{i}.Key"):
-            tags[key] = form[f"Tag.{i}.Value"]
+        if key := form.get(f"{prefix}Tag.{i}.Key"):
+            tags[key] = form[f"{prefix}Tag.{i}.Value"]
             continue
         return tags
 
