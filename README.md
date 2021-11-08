@@ -39,11 +39,14 @@ If you want to make SCT work with the same CA, you need to run this script in SC
 
     $ sudo scripts/patch_etc_hosts.sh
 
-## Run Docker container
+## Run the  mock server 
+Run using  Docker container
 
     $ docker run -it --rm -p 443:443 aws_mock
 
-## Run aws_mock server with mapped source files using `run.sh` script:
+OR
+
+Run aws_mock server with mapped source files using `run.sh` script:
 
     $ ./run.sh
 
