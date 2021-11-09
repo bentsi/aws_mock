@@ -1,54 +1,114 @@
 # aws_mock
-Mock for AWS API
+
+
+Mock for AWS API.
+
+[![License: Apache2](https://img.shields.io/github/license/scylladb/aws_mock.svg)](https://github.com/scylladb/seastar/blob/master/LICENSE)
 
 # Installation
+
 - It developed and tested on Debian-like OSes only
 - Make sure you have Python 3.10
-- install the Python requirements from `requirements.txt`
+- Install the Python requirements from `requirements.txt`
+- You need Docker to build and run the server
+- You need OpenSSL' `openssl` binary for scripts
+- You need `boto3` module to run an example below
 
-# Building Docker image
-
-## Creating CA (do it once)
-
-    $ scripts/create_ca.sh
-
-This step will generate `ca.passphrase`, `ca.key` and `ca.crt` files.
-
-## Generate signed certificate
-
-    $ scripts/create_cert.sh
-
-This step will generate `ca.srl`, `cert.csr`, `cert.key`, and `cert.crt` files.
-
-## Run `docker build` command
+# Build `aws_mock` Docker image
 
     $ docker build -t aws_mock .
 
-# Running aws_mock server
+# Run AWS mock server
 
-## Install CA (do it once)
+## How to provide a list of AWS hosts to mock
 
-    $ scripts/install_ca.sh ca.crt
+The AWS Mock server use `AWS_MOCK_HOSTS` environment variable as a space-separated list of hosts:
 
-This step will add `ca.crt` to system-wide CA bundle and append it to `certifi` CA bundle installed in current
-Python environment.
+    $ export AWS_MOCK_HOSTS="ec2.eu-north-1.amazonaws.com my-bucket.s3.amazonaws.com"
 
-If you want to make SCT work with the same CA, you need to run this script in SCT virtualenv too.
+## Run Docker container
+
+    $ scripts/run.sh
+
+Default Docker container name is `aws_mock` but you can provide it using `--name` option of the script.
+
+## Reusing CA files between runs
+
+    $ mkdir ./.aws_mock_ca
+    $ scripts/run.sh --ca-files ./.aws_mock_ca
+
+This command will generate all required keys and certificates on the first run and store them to
+`./.aws_mock_ca` directory.  On consequent runs it'll reuse CA files but regenerate server key and certificate.
+
+## Run Docker container in development mode
+
+    $ scripts/run.sh --dev
+
+This command will map local `aws_mock` to the Docker container and publish port 443 to localhost.
+Also, it'll monitor for source files and restart uWSGI on changes.
+
+You can combine both `--ca-files` and `--dev` options together.
 
 ## Patch /etc/hosts
 
-    $ sudo scripts/patch_etc_hosts.sh
+    $ scripts/mocked-hosts.sh --patch-etc-hosts
 
-## Run the  mock server
-Run using  Docker container
+This command will extract hosts from the AWS mock server SSL certificate and add them to `/etc/hosts` file.
+By default, it uses 127.0.0.1 as IP address, and it's OK if you run Docker container in development mode, but
+you can specify any IP address using `--ip` option if port 443 not published to the localhost:
 
-    $ docker run -it --rm -p 443:443 aws_mock
+    $ scripts/mocked-hosts.sh --patch-etc-hosts --ip 172.17.0.2
 
-OR
+or get IP address from a Docker container via `--container` option:
 
-Run aws_mock server with mapped source files using `run.sh` script:
+    $ scripts/mocked-hosts.sh --patch-etc-hosts --container aws_mock
 
-    $ ./run.sh
+## Install AWS Mock CA certificate to the localhost
 
-It will map local `cert.key`, `cert.crt` and `aws_mock` to the Docker container.
-This script is useful for development.
+    $ curl -k https://aws-mock.itself/install-ca.sh | bash
+
+This command will add AWS Mock CA certificate to /usr/local/share/ca-certificates and to the `certifi`'s CA bundle
+in current Python environment.
+
+Note, that it assumes you use a Debian-like Linux distribution and have already patched `/etc/hosts`.
+
+# Complete example
+
+> **⚠️** Note, it's supposed to run on a Debian-like OS.
+
+Build and run the AWS Mock server:
+
+    $ docker build -t aws_mock .
+    $ mkdir ./.aws_mock_ca
+    $ export AWS_MOCK_HOSTS="ec2.eu-north-1.amazonaws.com my-bucket.s3.amazonaws.com"
+    $ scripts/run.sh --ca-files ./.aws_mock_ca --dev
+
+In another terminal:
+
+    $ scripts/mocked-hosts.sh --patch-etc-hosts
+    $ curl -k https://aws-mock.itself/install-ca.sh | bash
+    $ docker exec aws_mock bash -c 'mkdir /src/s3/my-bucket; echo Hello > /src/s3/my-bucket/hello'
+    $ python
+    Python 3.10.0 (default, Oct  5 2021, 06:22:43) [GCC 7.5.0] on linux
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> import boto3, pprint
+    >>> ec2 = boto3.client("ec2", region_name="eu-north-1")
+    >>> pprint.pprint(ec2.describe_instances())
+    {'Reservations': [{'Groups': [],
+                   'Instances': [],
+                   'OwnerId': '...',
+                   'ReservationId': '...'}],
+     'ResponseMetadata': {'HTTPHeaders': {'connection': 'keep-alive',
+                                          'content-length': '441',
+                                          'content-type': 'text/html; '
+                                                          'charset=utf-8',
+                                          'date': '...',
+                                          'server': 'nginx/1.18.0'},
+                          'HTTPStatusCode': 200,
+                          'RequestId': '...',
+                          'RetryAttempts': 0}
+    >>> s3 = boto3.resource("s3")
+    >>> s3.Object("my-bucket", "hello").get()["Body"].read()
+    b'Hello\n'
+    >>>^D
+    $ scripts/mocked-hosts.sh --remove

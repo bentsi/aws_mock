@@ -1,8 +1,8 @@
 from uuid import uuid4
 
-from flask import Flask, request, render_template
+from flask import Flask, request
 
-from aws_mock.lib import extract_tags, get_region_name_from_hostname
+from aws_mock.lib import extract_tags, get_region_name_from_hostname, set_debug
 from aws_mock.requests.attach_internet_gateway import attach_internet_gateway
 from aws_mock.requests.authorize_security_group_ingress import authorize_security_group_ingress
 from aws_mock.requests.copy_image import copy_image
@@ -25,7 +25,7 @@ from aws_mock.requests.modify_subnet_attribute import modify_subnet_attribute
 from aws_mock.requests.run_instances import run_instances
 
 
-app = Flask(__name__)
+app = set_debug(Flask(__name__))
 
 
 @app.context_processor
@@ -121,11 +121,5 @@ def index():  # pylint: disable=too-many-return-statements
             return f"Unknown action: {action}", 400
 
 
-@app.route("/scylla-qa-ec2.pub")
-def return_scylla_qa_ec2_public_key():
-    return render_template("responses/scylla-qa-ec2.pub")
-
-
-@app.route("/scylla-qa-ec2")
-def return_scylla_qa_ec2_private_key():
-    return render_template("responses/scylla-qa-ec2")
+if __name__ == "__main__":
+    app.run(debug=True)

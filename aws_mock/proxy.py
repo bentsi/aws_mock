@@ -1,10 +1,12 @@
 import requests
 from flask import Flask, Response, request
 
+from aws_mock.lib import set_debug
+
 
 EXCLUDED_HEADERS = {"content-encoding", "content-length", "transfer-encoding", "connection"}
 
-app = Flask(__name__)
+app = set_debug(Flask(__name__))
 
 
 @app.route("/", defaults={"path": ""}, methods=["GET", "POST", "PUT", "DELETE"])
@@ -23,3 +25,7 @@ def proxy_request(path):  # pylint: disable=unused-argument
         status=response.status_code,
         headers=[(name, value) for name, value in response.raw.headers.items() if name.lower() not in EXCLUDED_HEADERS],
     )
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

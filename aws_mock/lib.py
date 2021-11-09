@@ -1,14 +1,19 @@
 from __future__ import annotations
 
+import os
 import socket
 from functools import wraps
 from random import getrandbits
-from typing import TYPE_CHECKING, ParamSpec, Callable, TypeAlias
+from typing import TYPE_CHECKING, ParamSpec
 
 from flask import render_template
 from pymongo import MongoClient
+from werkzeug.debug import DebuggedApplication
 
 if TYPE_CHECKING:
+    from typing import Callable, TypeAlias
+
+    from flask import Flask
     from pymongo.database import Database
     from pymongo.collection import Collection
     from werkzeug.datastructures import ImmutableMultiDict
@@ -101,3 +106,26 @@ def aws_response(func: Callable[P, AwsResponseArgs]) -> Callable[P, tuple[str, i
                 raise ValueError(f"Wrapped function returned unexpected values: {result:r}")
         return render_template(template, **ctx), status_code
     return wrapper
+
+
+# Module distutils is deprecated and PEP-632 suggested to reimplement this function.
+def strtobool(val: str) -> bool:
+    """Convert a string representation of truth to True or False.
+
+    True values are 'y', 'yes', 't', 'true', 'on', and '1'.
+    False values are 'n', 'no', 'f', 'false', 'off', '0' and ''.
+    Raises ValueError if 'val' is anything else.
+    """
+    match val.lower():
+        case "y" | "yes" | "t" | "true" | "on" | "1":
+            return True
+        case "n" | "no" | "f" | "false" | "off" | "0" | "":
+            return False
+    raise ValueError(f"invalid truth value {val!r}")
+
+
+def set_debug(app: Flask) -> Flask:
+    if strtobool(os.environ.get("AWS_MOCK_DEVMODE", "false")):
+        app.wsgi_app = DebuggedApplication(app.wsgi_app, True)
+        app.debug = True
+    return app
