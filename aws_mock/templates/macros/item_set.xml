@@ -1,0 +1,15 @@
+{% macro item_set(tag, items) -%}
+{% if items -%}
+<{{ tag }}>
+{%- filter indent(width=4) %}
+{% for item in items -%}
+<item>
+    {{ caller(item) | indent(width=4) }}
+</item>
+{% endfor -%}
+{% endfilter -%}
+</{{ tag }}>
+{%- else -%}
+<{{ tag }}/>
+{%- endif %}
+{%- endmacro %}

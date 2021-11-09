@@ -1,0 +1,3 @@
+{% extends "response_with_set.xml" %}
+
+{% set set_tag, item_name = "vpcSet", "vpc" %}

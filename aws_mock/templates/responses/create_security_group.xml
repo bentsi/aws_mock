@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CreateSecurityGroupResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
-    <requestId>{{ request_id }}</requestId>
-    <return>true</return>
-    <groupId>{{ security_group_id }}</groupId>
-</CreateSecurityGroupResponse>
+{% extends "response_true.xml" %}
+
+{% block response -%}
+{{ super() }}
+<groupId>{{ security_group_id }}</groupId>
+{%- endblock %}

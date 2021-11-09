@@ -1,5 +1,5 @@
 {% extends "response.xml" %}
 
 {% block response -%}
-    <imageId>{{ image_id }}</imageId>
+<return>true</return>
 {%- endblock %}

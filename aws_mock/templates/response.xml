@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<{{ action }}Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+{%- filter indent(width=4) %}
+<requestId>{{ request_id }}</requestId>
+{% block response %}{% endblock %}
+{% endfilter -%}
+</{{ action }}Response>

@@ -1,9 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<DescribeSubnetsResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
-    <requestId>{{ request_id }}</requestId>
-    <subnetSet>
-        {% for item in items %}
-        {{ item | safe }}
-        {% endfor %}
-    </subnetSet>
-</DescribeSubnetsResponse>
+{% extends "response_with_set.xml" %}
+
+{% set set_tag, item_name = "subnetSet", "subnet" %}

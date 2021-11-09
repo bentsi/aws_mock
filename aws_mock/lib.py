@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import socket
+from functools import wraps
 from random import getrandbits
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ParamSpec, Callable, TypeAlias
 
+from flask import render_template
 from pymongo import MongoClient
 
 if TYPE_CHECKING:
@@ -74,3 +76,28 @@ def get_aws_mock_server_ip() -> str:
 
 def generate_resource_id(resource_type: str, length: int = 17) -> str:
     return f"{resource_type}-{getrandbits(length << 2):x}"
+
+
+P = ParamSpec("P")
+AwsResponseArgs: TypeAlias = dict | tuple[dict, int] | tuple[str, dict, int] | tuple[str, int] | None
+
+
+def aws_response(func: Callable[P, AwsResponseArgs]) -> Callable[P, tuple[str, int]]:
+    @wraps(func)
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> tuple[str, int]:
+        template, ctx, status_code = f"responses/{func.__name__}.xml", {}, 200
+        match func(*args, **kwargs):
+            case None:
+                pass
+            case str(response), int(status_code):
+                return response, status_code
+            case str(template), dict(ctx), int(status_code):
+                pass
+            case dict(ctx), int(status_code):
+                pass
+            case dict(ctx):
+                pass
+            case result:
+                raise ValueError(f"Wrapped function returned unexpected values: {result:r}")
+        return render_template(template, **ctx), status_code
+    return wrapper

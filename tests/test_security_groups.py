@@ -47,7 +47,7 @@ class TestSecurityGroups(AwsMockTestCase):
             "Filter.1.Name": "tag:Name",
             "Filter.1.Value": "SCT-sg",
         }
-        mongo().aws_mock["sg"].find.return_value = [{"id": "sg-12345"}]
+        mongo().aws_mock["sg"].find.return_value = [{"id": "sg-12345", "tags": {}}]
         with self.app as client:
             response = client.post(self.base_url, data=request_body)
         assert b"</DescribeSecurityGroupsResponse>" in response.data
@@ -83,7 +83,7 @@ class TestSecurityGroups(AwsMockTestCase):
             "Filter.1.Name": "tag:Name",
             "Filter.1.Value": "SCT-sg",
         }
-        mongo().aws_mock["sg"].find.return_value = [{"id": "sg-12345", "is_ingress_rules_added": True}]
+        mongo().aws_mock["sg"].find.return_value = [{"id": "sg-12345", "tags": {}, "is_ingress_rules_added": True}]
         with self.app as client:
             response = client.post(self.base_url, data=request_body)
         assert b"</DescribeSecurityGroupsResponse>" in response.data
@@ -233,7 +233,7 @@ class TestSecurityGroups(AwsMockTestCase):
             "IpPermissions.20.Ipv6Ranges.1.CidrIpv6": "::/0",
             "IpPermissions.20.Ipv6Ranges.1.Description": "Allow Scylla Manager pprof Debug For ALL",
         }
-        mongo().aws_mock["sg"].find_one.return_value = {"_id": "MOCKED_ID", "id": "sg-12345"}
+        mongo().aws_mock["sg"].find_one.return_value = {"_id": "MOCKED_ID", "id": "sg-12345", "tags": {}}
         with self.app as client:
             response = client.post(self.base_url, data=request_body)
         assert b"</AuthorizeSecurityGroupIngressResponse>" in response.data

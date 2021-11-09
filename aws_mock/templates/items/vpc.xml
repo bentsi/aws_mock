@@ -1,0 +1,29 @@
+{% from "macros/item_set.xml" import item_set -%}
+{% from "macros/tag_set.xml" import tag_set -%}
+
+<vpcId>{{ item.id }}</vpcId>
+<ownerId>797456418907</ownerId>
+<state>{{ item.state }}</state>
+<cidrBlock>{{ item.cidr_block }}</cidrBlock>
+<cidrBlockAssociationSet>
+    <item>
+        <cidrBlock>{{ item.cidr_block }}</cidrBlock>
+        <associationId>vpc-cidr-assoc-0ac02a49bc94bd981</associationId>
+        <cidrBlockState>
+            <state>associated</state>
+        </cidrBlockState>
+    </item>
+</cidrBlockAssociationSet>
+{% call(item) item_set("ipv6CidrBlockAssociationSet", [item] if item.ipv6_cidr_block else []) -%}
+<ipv6CidrBlock>{{ item.ipv6_cidr_block if item.ipv6_cidr_block_state == "associated" else "" }}</ipv6CidrBlock>
+<associationId>vpc-cidr-assoc-05c2e162f001f34e0</associationId>
+<ipv6CidrBlockState>
+    <state>{{ item.ipv6_cidr_block_state }}</state>
+</ipv6CidrBlockState>
+<ipv6Pool>Amazon</ipv6Pool>
+<networkBorderGroup>ap-northeast-3</networkBorderGroup>
+{%- endcall %}
+<dhcpOptionsId>dopt-d8b442b1</dhcpOptionsId>
+{{ tag_set(item.tags) }}
+<instanceTenancy>default</instanceTenancy>
+<isDefault>false</isDefault>

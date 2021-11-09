@@ -26,7 +26,7 @@ class TestKeyPairs(AwsMockTestCase):
             "Version": "2016-11-15",
             "KeyName.1": "test-key-name",
         }
-        mongo().aws_mock["key"].find_one.return_value = {"id": "key-12345", "name": "test-key-name"}
+        mongo().aws_mock["key"].find_one.return_value = {"id": "key-12345", "name": "test-key-name", "tags": {}}
         with self.app as client:
             response = client.post(self.base_url, data=request_body)
         assert response.status_code == 200
@@ -77,4 +77,5 @@ class TestKeyPairs(AwsMockTestCase):
         mongo().aws_mock["key"].insert_one.assert_called_once_with({
             "id": "key-12345",
             "name": "test-key-name",
+            "tags": {},
         })

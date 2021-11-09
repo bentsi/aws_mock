@@ -1,0 +1,9 @@
+{% extends "response.xml" %}
+
+{% block response -%}
+<{{ resource_tag }}>
+{%- filter indent(width=4) %}
+{% include "items/" + item_name + ".xml" with context %}
+{% endfilter -%}
+</{{ resource_tag }}>
+{%- endblock %}

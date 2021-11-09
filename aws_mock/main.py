@@ -3,43 +3,67 @@ from uuid import uuid4
 from flask import Flask, request, render_template
 
 from aws_mock.lib import extract_tags, get_region_name_from_hostname
-from aws_mock.describe_instances import describe_instances
-from aws_mock.run_instances import run_instances
-from aws_mock.create_tags import create_tags
-from aws_mock.describe_key_pairs import describe_key_pairs
-from aws_mock.import_key_pair import import_key_pair
-from aws_mock.copy_image import copy_image
-from aws_mock.create_subnet import create_subnet
-from aws_mock.describe_subnets import describe_subnets
-from aws_mock.modify_subnet_attribute import modify_subnet_attribute
-from aws_mock.create_vpc import create_vpc
-from aws_mock.describe_availability_zones import describe_availability_zones
-from aws_mock.describe_images import describe_images
-from aws_mock.describe_vpcs import describe_vpcs
-from aws_mock.create_security_group import create_security_group
-from aws_mock.describe_security_groups import describe_security_groups
-from aws_mock.authorize_security_group_ingress import authorize_security_group_ingress
-from aws_mock.create_internet_gateway import create_internet_gateway
-from aws_mock.describe_internet_gateways import describe_internet_gateways
-from aws_mock.attach_internet_gateway import attach_internet_gateway
-from aws_mock.describe_route_tables import describe_route_tables
+from aws_mock.requests.attach_internet_gateway import attach_internet_gateway
+from aws_mock.requests.authorize_security_group_ingress import authorize_security_group_ingress
+from aws_mock.requests.copy_image import copy_image
+from aws_mock.requests.create_internet_gateway import create_internet_gateway
+from aws_mock.requests.create_security_group import create_security_group
+from aws_mock.requests.create_subnet import create_subnet
+from aws_mock.requests.create_tags import create_tags
+from aws_mock.requests.create_vpc import create_vpc
+from aws_mock.requests.describe_availability_zones import describe_availability_zones
+from aws_mock.requests.describe_images import describe_images
+from aws_mock.requests.describe_instances import describe_instances
+from aws_mock.requests.describe_internet_gateways import describe_internet_gateways
+from aws_mock.requests.describe_key_pairs import describe_key_pairs
+from aws_mock.requests.describe_route_tables import describe_route_tables
+from aws_mock.requests.describe_security_groups import describe_security_groups
+from aws_mock.requests.describe_subnets import describe_subnets
+from aws_mock.requests.describe_vpcs import describe_vpcs
+from aws_mock.requests.import_key_pair import import_key_pair
+from aws_mock.requests.modify_subnet_attribute import modify_subnet_attribute
+from aws_mock.requests.run_instances import run_instances
 
 
 app = Flask(__name__)
 
 
 @app.context_processor
-def add_request_id():
-    return {"request_id": str(uuid4())}
+def action_context():
+    return {
+        "action": request.form.get("Action"),
+        "request_id": str(uuid4()),
+    }
 
 
 @app.route("/", methods=['POST'])
 def index():  # pylint: disable=too-many-return-statements
+    region_name = get_region_name_from_hostname(hostname=request.headers["Host"])
+
     match request.form["Action"]:
         case "RunInstances":
-            return run_instances(request_data=request.form)
+            return run_instances(
+                count=int(request.form["MaxCount"]),
+                instance_spec={
+                    "image_id": request.form["ImageId"],
+                    "instance_type": request.form["InstanceType"],
+                    "key_name": request.form["KeyName"],
+                    "subnet_id": request.form["NetworkInterface.1.SubnetId"],
+                    "security_group_id": request.form["NetworkInterface.1.SecurityGroupId.1"],
+                    "mac_address": "06:0f:3a:66:ba:e8",
+                    "private_ip": "10.0.1.30",
+                    "ipv6_address": "2a05:d016:cf8:de00:82e3:74cc:fd02:efce",
+                    "volume_size": request.form["BlockDeviceMapping.1.Ebs.VolumeSize"],
+                    "tags": extract_tags(form=request.form, prefix="TagSpecification.1."),
+                    "client_token": request.form["ClientToken"],
+                    "instance_state_code": "0",
+                    "instance_state": "pending",
+                },
+            )
         case "DescribeInstances":
-            return describe_instances(request_data=request.form)
+            return describe_instances(
+                instance_ids=[value for key, value in request.form.items() if key.startswith("InstanceId.")],
+            )
         case "CreateTags":
             return create_tags(
                 resource_ids=[value for key, value in request.form.items() if key.startswith("ResourceId.")],
@@ -51,16 +75,16 @@ def index():  # pylint: disable=too-many-return-statements
             return import_key_pair(key_name=request.form["KeyName"])
         case "CopyImage":
             return copy_image(
-                source_region=request.form["SourceRegion"],
+                source_region_name=request.form["SourceRegion"],
                 source_ami_id=request.form["SourceImageId"],
-                target_region=get_region_name_from_hostname(hostname=request.headers["Host"])
+                target_region_name=region_name,
             )
         case "CreateSubnet":
             return create_subnet(
-                region_name=get_region_name_from_hostname(hostname=request.headers["Host"]),
+                region_name=region_name,
                 vpc_id=request.form["VpcId"],
-                cidr=request.form["CidrBlock"],
-                ipv6_cidr=request.form["Ipv6CidrBlock"],
+                cidr_block=request.form["CidrBlock"],
+                ipv6_cidr_block=request.form["Ipv6CidrBlock"],
                 availability_zone=request.form["AvailabilityZone"],
             )
         case "DescribeSubnets":
@@ -69,14 +93,14 @@ def index():  # pylint: disable=too-many-return-statements
             return modify_subnet_attribute()
         case "CreateVpc":
             return create_vpc(
-                cidr=request.form["CidrBlock"],
+                cidr_block=request.form["CidrBlock"],
                 ipv6_support=bool(request.form["AmazonProvidedIpv6CidrBlock"]),
-                tags=extract_tags(request.form)
+                tags=extract_tags(request.form, prefix="TagSpecification.1.")
             )
         case "DescribeAvailabilityZones":
-            return describe_availability_zones(hostname=request.headers['Host'])
+            return describe_availability_zones(region_name=region_name)
         case "DescribeImages":
-            return describe_images(hostname=request.headers["Host"])
+            return describe_images(region_name=region_name)
         case "DescribeVpcs":
             return describe_vpcs()
         case "CreateSecurityGroup":
@@ -90,7 +114,7 @@ def index():  # pylint: disable=too-many-return-statements
         case "DescribeInternetGateways":
             return describe_internet_gateways(gateway_name=request.form["Filter.1.Value.1"])
         case "AttachInternetGateway":
-            return attach_internet_gateway()
+            return attach_internet_gateway(gateway_id=request.form["InternetGatewayId"], vpc_id=request.form["VpcId"])
         case "DescribeRouteTables":
             return describe_route_tables()
         case action:

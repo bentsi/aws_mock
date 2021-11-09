@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CreateSubnetResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
-    <requestId>{{ request_id }}</requestId>
-    {{ subnet_item | safe }}
-</CreateSubnetResponse>
+{% extends "response_create_resource.xml" %}
+
+{% set resource_tag, item_name = "subnet", "subnet" %}

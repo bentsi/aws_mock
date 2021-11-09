@@ -1,9 +1,0 @@
-        <internetGatewayId>{{ id }}</internetGatewayId>
-        <ownerId>797456418907</ownerId>
-        <attachmentSet>
-            <item>
-                <vpcId>vpc-0b04728271b54803d</vpcId>
-                <state>available</state>
-            </item>
-        </attachmentSet>
-        {% include "responses/tag_set.xml" %}

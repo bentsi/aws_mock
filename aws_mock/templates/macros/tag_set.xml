@@ -1,0 +1,8 @@
+{% from "macros/item_set.xml" import item_set %}
+
+{% macro tag_set(tags) %}
+{%- call(item) item_set("tagSet", tags.items()) -%}
+<key>{{ item.0 }}</key>
+<value>{{ item.1 }}</value>
+{%- endcall -%}
+{% endmacro %}

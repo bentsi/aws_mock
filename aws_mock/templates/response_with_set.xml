@@ -1,0 +1,9 @@
+{% extends "response.xml" %}
+
+{% from "macros/item_set.xml" import item_set %}
+
+{% block response -%}
+    {% call(item) item_set(set_tag, items) -%}
+        {% include "items/" + item_name + ".xml" with context %}
+    {%- endcall %}
+{%- endblock %}

@@ -18,7 +18,7 @@ class TestDescribeVpc(AwsMockTestCase):
     @patch("aws_mock.lib.MongoClient")
     def test_describe_vpc(self, mongo: Mock) -> None:
         collection = mongo().aws_mock["vpc"]
-        collection.find_one.return_value = {"_id": "MOCKED_ID", "id": self.request_body["VpcId"]}
+        collection.find_one.return_value = {"_id": "MOCKED_ID", "id": self.request_body["VpcId"], "tags": {}}
         with self.app as client:
             response = client.post(self.base_url, data=self.request_body)
         assert b"cidrBlock" in response.data

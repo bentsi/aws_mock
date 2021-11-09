@@ -1,0 +1,10 @@
+{% from "macros/item_set.xml" import item_set -%}
+{% from "macros/tag_set.xml" import tag_set -%}
+
+<internetGatewayId>{{ item.id }}</internetGatewayId>
+<ownerId>797456418907</ownerId>
+{% call(item) item_set("attachmentSet", item.attachments) -%}
+<vpcId>{{ item.vpc_id }}</vpcId>
+<state>{{ item.state }}</state>
+{%- endcall %}
+{{ tag_set(item.tags) }}

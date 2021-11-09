@@ -1,0 +1,151 @@
+{% from "macros/tag_set.xml" import tag_set -%}
+
+<instanceId>{{ item.id }}</instanceId>
+<imageId>{{ item.image_id }}</imageId>
+<instanceState>
+    <code>{{ item.instance_state_code }}</code>
+    <name>{{ item.instance_state }}</name>
+</instanceState>
+<privateDnsName>ip-{{ item.private_ip|replace(".", "-") }}.{{ item.region_name }}.compute.internal</privateDnsName>
+<dnsName/>
+<reason/>
+<keyName>{{ item.key_name }}</keyName>
+<amiLaunchIndex>0</amiLaunchIndex>
+<productCodes/>
+<instanceType>{{ item.instance_type }}</instanceType>
+<launchTime>{{ item.launch_time }}</launchTime>
+<placement>
+    <availabilityZone>{{ item.availability_zone }}</availabilityZone>
+    <groupName/>
+    <tenancy>default</tenancy>
+</placement>
+<monitoring>
+    <state>disabled</state>
+</monitoring>
+<subnetId>{{ item.subnet_id }}</subnetId>
+<vpcId>{{ item.vpc_id }}</vpcId>
+<privateIpAddress>{{ item.private_ip }}</privateIpAddress>
+{% if item.instance_state == "running" -%}
+<ipAddress>{{ item.public_ip }}</ipAddress>
+{%- endif %}
+<sourceDestCheck>true</sourceDestCheck>
+<groupSet>
+    <item>
+        <groupId>{{ item.security_group_id }}</groupId>
+        <groupName>{{ item.security_group_name }}</groupName>
+    </item>
+</groupSet>
+{% if item.instance_state == "pending" -%}
+<stateReason>
+    <code>pending</code>
+    <message>pending</message>
+</stateReason>
+{%- endif %}
+<architecture>x86_64</architecture>
+<rootDeviceType>ebs</rootDeviceType>
+<rootDeviceName>/dev/sda1</rootDeviceName>
+{% if item.instance_state == "pending" -%}
+<blockDeviceMapping/>
+{%- else -%}
+<blockDeviceMapping>
+    <item>
+        <deviceName>/dev/sda1</deviceName>
+        <ebs>
+            <volumeId>vol-094db904aa8e3d625</volumeId>
+            <status>attached</status>
+            <attachTime>{{ item.launch_time }}</attachTime>
+            <deleteOnTermination>true</deleteOnTermination>
+        </ebs>
+    </item>
+</blockDeviceMapping>
+{%- endif %}
+<virtualizationType>hvm</virtualizationType>
+<clientToken>{{ item.client_token }}</clientToken>
+{{ tag_set(item.tags) }}
+<hypervisor>xen</hypervisor>
+<networkInterfaceSet>
+    <item>
+        <networkInterfaceId>eni-0a5facb3ed8ee75ce</networkInterfaceId>
+        <subnetId>{{ item.subnet_id }}</subnetId>
+        <vpcId>{{ item.vpc_id }}</vpcId>
+        <description/>
+        <ownerId>797456418907</ownerId>
+        <status>in-use</status>
+        <macAddress>{{ item.mac_address }}</macAddress>
+        <privateIpAddress>{{ item.private_ip }}</privateIpAddress>
+        <sourceDestCheck>true</sourceDestCheck>
+        <groupSet>
+            <item>
+                <groupId>{{ item.security_group_id }}</groupId>
+                <groupName>{{ item.security_group_name }}</groupName>
+            </item>
+        </groupSet>
+        <attachment>
+            <attachmentId>eni-attach-0eb0d9ca142fa1258</attachmentId>
+            <deviceIndex>0</deviceIndex>
+            <status>{% if item.instance_state == "pending"%}attaching{% else %}attached{% endif %}</status>
+            <attachTime>{{ item.launch_time }}</attachTime>
+            <deleteOnTermination>true</deleteOnTermination>
+            <networkCardIndex>0</networkCardIndex>
+        </attachment>
+        {% if item.instance_state == "running" -%}
+        <association>
+            <publicIp>{{ item.public_ip }}</publicIp>
+            <publicDnsName/>
+            <ipOwnerId>amazon</ipOwnerId>
+        </association>
+        {%- endif %}
+        <privateIpAddressesSet>
+            <item>
+                <privateIpAddress>{{ item.private_ip }}</privateIpAddress>
+                <primary>true</primary>
+                {% if item.instance_state == "running" -%}
+                <association>
+                    <publicIp>{{ item.public_ip }}</publicIp>
+                    <publicDnsName/>
+                    <ipOwnerId>amazon</ipOwnerId>
+                </association>
+                {%- endif %}
+            </item>
+        </privateIpAddressesSet>
+        <ipv6AddressesSet>
+            <item>
+                <ipv6Address>{{ item.ipv6_address }}</ipv6Address>
+            </item>
+        </ipv6AddressesSet>
+        <interfaceType>interface</interfaceType>
+    </item>
+</networkInterfaceSet>
+<ebsOptimized>false</ebsOptimized>
+<enaSupport>true</enaSupport>
+<cpuOptions>
+    <coreCount>1</coreCount>
+    <threadsPerCore>2</threadsPerCore>
+</cpuOptions>
+<capacityReservationSpecification>
+    <capacityReservationPreference>open</capacityReservationPreference>
+</capacityReservationSpecification>
+{% if item.instance_state == "running" -%}
+<hibernationOptions>
+    <configured>false</configured>
+</hibernationOptions>
+{%- endif %}
+<enclaveOptions>
+    <enabled>false</enabled>
+</enclaveOptions>
+<metadataOptions>
+    <state>{% if item.instance_state == "pending"%}pending{% else %}applied{% endif %}</state>
+    <httpTokens>optional</httpTokens>
+    <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+    <httpEndpoint>enabled</httpEndpoint>
+    <httpProtocolIpv4>enabled</httpProtocolIpv4>
+    <httpProtocolIpv6>disabled</httpProtocolIpv6>
+</metadataOptions>
+{% if item.instance_state == "running" -%}
+<privateDnsNameOptions>
+    <hostnameType>ip-name</hostnameType>
+    <enableResourceNameDnsARecord>false</enableResourceNameDnsARecord>
+    <enableResourceNameDnsAAAARecord>false</enableResourceNameDnsAAAARecord>
+</privateDnsNameOptions>
+<ipv6Address>{{ item.ipv6_address }}</ipv6Address>
+{%- endif %}

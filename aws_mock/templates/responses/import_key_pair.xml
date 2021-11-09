@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ImportKeyPairResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
-    <requestId>{{ request_id }}</requestId>
-    <keyName>{{ key_name }}</keyName>
-    <keyPairId>{{ key_pair_id }}</keyPairId>
-    <keyFingerprint>13:70:8d:19:e1:a8:74:a2:e0:70:13:46:01:62:5e:78</keyFingerprint>
-</ImportKeyPairResponse>
+{% extends "response.xml" %}
+
+{% block response -%}
+{% include "items/key_pair_info.xml" with context %}
+{%- endblock %}

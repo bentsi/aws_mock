@@ -1,0 +1,24 @@
+{% from "macros/tag_set.xml" import tag_set -%}
+
+<subnetId>{{ item.id }}</subnetId>
+<subnetArn>arn:aws:ec2:{{ item.region_name }}:797456418907:subnet/{{ item.id }}</subnetArn>
+<state>available</state>
+<ownerId>797456418907</ownerId>
+<vpcId>{{ item.vpc_id }}</vpcId>
+<cidrBlock>{{ item.cidr_block }}</cidrBlock>
+<ipv6CidrBlockAssociationSet>
+    <item>
+        <ipv6CidrBlock>{{ item.ipv6_cidr_block }}</ipv6CidrBlock>
+        <associationId>subnet-cidr-assoc-0080368dd0ce3013d</associationId>
+        <ipv6CidrBlockState>
+            <state>associating</state>
+        </ipv6CidrBlockState>
+    </item>
+</ipv6CidrBlockAssociationSet>
+<availableIpAddressCount>1019</availableIpAddressCount>
+<availabilityZone>{{ item.availability_zone }}</availabilityZone>
+<availabilityZoneId>{{ item.availability_zone_id }}</availabilityZoneId>
+<defaultForAz>false</defaultForAz>
+<mapPublicIpOnLaunch>false</mapPublicIpOnLaunch>
+{{ tag_set(item.tags) }}
+<assignIpv6AddressOnCreation>false</assignIpv6AddressOnCreation>
