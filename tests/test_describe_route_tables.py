@@ -1,31 +1,9 @@
-import unittest
 from unittest.mock import Mock, patch
 
-import boto3
-
-from aws_mock.main import app
+from tests.base import AwsMockTestCase
 
 
-class TestDescribeRouteTables(unittest.TestCase):
-    region_name = 'eu-north-1'
-
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['DEBUG'] = True
-        self.app = app.test_client()
-        self.base_url = '/'
-
-    def _run_query(self, data: dict):
-        return self.app.post(self.base_url, data=data)
-
-    @property
-    def aws_resource(self):
-        return boto3.resource("ec2", region_name=self.region_name)
-
-    @property
-    def aws_client(self):
-        return boto3.client("ec2", region_name=self.region_name)
-
+class TestDescribeRouteTables(AwsMockTestCase):
     def _describe_route_tables1(self):
         response = self._run_query(data={
             'Action': 'DescribeRouteTables',
@@ -56,9 +34,9 @@ class TestDescribeRouteTables(unittest.TestCase):
 
     def test_describe_route_tables_with_boto3(self):
         route_table_name = 'my-subnet'
-        result = self.aws_client.describe_route_tables(Filters=[{"Name": "tag:Name",
+        result = self.ec2_client.describe_route_tables(Filters=[{"Name": "tag:Name",
                                                                  "Values": [route_table_name]}])
         assert result['RouteTables']
-        result = self.aws_client.describe_route_tables(Filters=[{"Name": "vpc-id",
+        result = self.ec2_client.describe_route_tables(Filters=[{"Name": "vpc-id",
                                                                  "Values": ['vpc-0b04728271b54803d']}])
         assert result['RouteTables']

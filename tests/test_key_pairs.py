@@ -1,16 +1,9 @@
-import unittest
 from unittest.mock import Mock, patch
 
-from aws_mock.main import app
+from tests.base import AwsMockTestCase
 
 
-class TestKeyPairs(unittest.TestCase):
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['DEBUG'] = True
-        self.app = app.test_client()
-        self.base_url = '/'
-
+class TestKeyPairs(AwsMockTestCase):
     @patch("aws_mock.lib.MongoClient")
     def test_describe_key_pairs_not_found(self, mongo: Mock) -> None:
         request_body = {
@@ -19,8 +12,8 @@ class TestKeyPairs(unittest.TestCase):
             "KeyName.1": "test-key-name",
         }
         mongo().aws_mock["key"].find_one.return_value = None
-        with self.app as c:
-            response = c.post(self.base_url, data=request_body)
+        with self.app as client:
+            response = client.post(self.base_url, data=request_body)
         assert response.status_code == 400
         assert b"<Code>InvalidKeyPair.NotFound</Code>" in response.data
         assert b"test-key-name" in response.data
@@ -34,8 +27,8 @@ class TestKeyPairs(unittest.TestCase):
             "KeyName.1": "test-key-name",
         }
         mongo().aws_mock["key"].find_one.return_value = {"id": "key-12345", "name": "test-key-name"}
-        with self.app as c:
-            response = c.post(self.base_url, data=request_body)
+        with self.app as client:
+            response = client.post(self.base_url, data=request_body)
         assert response.status_code == 200
         assert b"</DescribeKeyPairsResponse>" in response.data
         assert b"<keyName>test-key-name</keyName>" in response.data
@@ -55,8 +48,8 @@ class TestKeyPairs(unittest.TestCase):
             "name": "test-key-name",
             "tags": {"tag1": "val1"},
         }
-        with self.app as c:
-            response = c.post(self.base_url, data=request_body)
+        with self.app as client:
+            response = client.post(self.base_url, data=request_body)
         assert response.status_code == 200
         assert b"</DescribeKeyPairsResponse>" in response.data
         assert b"<keyName>test-key-name</keyName>" in response.data
@@ -76,8 +69,8 @@ class TestKeyPairs(unittest.TestCase):
             "PublicKeyMaterial": "AAA...BBB",
         }
         getrandbits.return_value = 0x12345
-        with self.app as c:
-            response = c.post(self.base_url, data=request_body)
+        with self.app as client:
+            response = client.post(self.base_url, data=request_body)
         assert b"</ImportKeyPairResponse>" in response.data
         assert b"<keyName>test-key-name</keyName>" in response.data
         assert b"<keyPairId>key-12345</keyPairId>" in response.data

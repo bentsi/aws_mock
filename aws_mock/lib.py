@@ -33,34 +33,6 @@ def get_collection_by_resource_id(resource_id: str) -> Collection:
     return get_aws_mock_db()[get_collection_name(resource_id=resource_id)]
 
 
-def aws_extract_request_data(request_data: dict) -> dict:
-    data = {}
-    for item, value in request_data.items():
-        parent = data
-        chunks = item.split('.')
-        last_chunk = chunks.pop()
-        for chunk in chunks:
-            if chunk.isdigit():
-                chunk = int(chunk) - 1
-                if len(parent) > chunk:
-                    current = parent[chunk]
-                else:
-                    current = {}
-                    parent.append(current)
-            else:
-                if chunk in parent:
-                    current = parent[chunk]
-                else:
-                    current = []
-                    parent[chunk] = current
-            parent = current
-        if isinstance(parent, list):
-            parent.append(value)
-        elif isinstance(parent, dict):
-            parent[last_chunk] = value
-    return data
-
-
 def get_region_name_from_hostname(hostname: str, default: str = 'eu-central-1') -> str:
     # ec2.ap-northeast-3.amazonaws.com -> ap-northeast-3
     url_chunks = hostname.split('.', maxsplit=3)

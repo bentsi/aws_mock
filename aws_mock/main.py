@@ -34,7 +34,7 @@ def add_request_id():
 
 
 @app.route("/", methods=['POST'])
-def index():
+def index():  # pylint: disable=too-many-return-statements
     match request.form["Action"]:
         case "RunInstances":
             return run_instances(request_data=request.form)

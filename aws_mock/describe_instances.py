@@ -18,9 +18,8 @@ def describe_instances(request_data: ImmutableMultiDict[str, str]) -> str:
     if not instance_ids:  # no instances provided return empty list
         return render_template("responses/describe_instances.xml", instances=[])
 
-    LOGGER.debug(f"Looking for instances with ids: %s ...", instance_ids)
-    db = get_aws_mock_db()
-    collection = db[get_collection_name(instance_ids[0])]
+    LOGGER.debug("Looking for instances with ids: %s ...", instance_ids)
+    collection = get_aws_mock_db()[get_collection_name(instance_ids[0])]
     found_instances = list(collection.find({"id": {"$in":  instance_ids}}))
 
     aws_mock_ip = get_aws_mock_server_ip()

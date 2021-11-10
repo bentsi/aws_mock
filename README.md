@@ -30,7 +30,7 @@ This step will generate `ca.srl`, `cert.csr`, `cert.key`, and `cert.crt` files.
 
     $ scripts/install_ca.sh ca.crt
 
-This step will add `ca.crt` to system-wide CA bundle and append it to `certifi` CA bundle installed in current 
+This step will add `ca.crt` to system-wide CA bundle and append it to `certifi` CA bundle installed in current
 Python environment.
 
 If you want to make SCT work with the same CA, you need to run this script in SCT virtualenv too.

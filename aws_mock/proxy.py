@@ -9,12 +9,12 @@ app = Flask(__name__)
 
 @app.route("/", defaults={"path": ""}, methods=["GET", "POST", "PUT", "DELETE"])
 @app.route("/<path:path>", methods=["GET", "POST", "PUT", "DELETE"])
-def proxy_request(path):
+def proxy_request(path):  # pylint: disable=unused-argument
     response = requests.request(
         method=request.method,
         url=request.url,
         data=request.get_data(),
-        headers={key: value for key, value in request.headers},
+        headers=dict(request.headers),
         cookies=request.cookies,
         allow_redirects=False,
     )

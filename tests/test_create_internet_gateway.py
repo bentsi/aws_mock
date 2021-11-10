@@ -1,31 +1,9 @@
-import unittest
 from unittest.mock import Mock, patch
 
-import boto3
-
-from aws_mock.main import app
+from tests.base import AwsMockTestCase
 
 
-class TestCreateSubnet(unittest.TestCase):
-    region_name = 'eu-north-1'
-
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['DEBUG'] = True
-        self.app = app.test_client()
-        self.base_url = '/'
-
-    def _run_query(self, data: dict):
-        return self.app.post(self.base_url, data=data)
-
-    @property
-    def aws_resource(self):
-        return boto3.resource("ec2", region_name=self.region_name)
-
-    @property
-    def aws_client(self):
-        return boto3.client("ec2", region_name=self.region_name)
-
+class TestCreateInternetGateway(AwsMockTestCase):
     def _create_gateway(self):
         response = self._run_query(data={
             'Action': 'CreateInternetGateway',
@@ -54,21 +32,15 @@ class TestCreateSubnet(unittest.TestCase):
         gateway_collection = mongo().aws_mock["gateway"]
         gateway_collection.find.assert_called_once()
 
-    def test_create_gateway_with_boto3(self):
-        ec2 = boto3.client("ec2", region_name="eu-north-1")
-        result = ec2.create_internet_gateway()
-        assert result['InternetGateway']
-
-    def test_describe_gateways_with_boto3(self):
+    def test_with_boto3(self):
         gateway_name = 'my-gateway'
-        result = self.aws_client.describe_internet_gateways(Filters=[{"Name": "tag:Name", "Values": [gateway_name]}])
+        result = self.ec2_client.describe_internet_gateways(Filters=[{"Name": "tag:Name", "Values": [gateway_name]}])
         assert not result['InternetGateways']
-        result = self.aws_client.create_internet_gateway()
+        result = self.ec2_client.create_internet_gateway()
         gateway_id = result["InternetGateway"]["InternetGatewayId"]
-        gateway = self.aws_resource.InternetGateway(gateway_id)
+        gateway = self.ec2_resource.InternetGateway(gateway_id)
         gateway.create_tags(Tags=[{"Key": "Name", "Value": gateway_name}])
-        result = self.aws_client.describe_internet_gateways(Filters=[{"Name": "tag:Name", "Values": [gateway_name]}])
+        result = self.ec2_client.describe_internet_gateways(Filters=[{"Name": "tag:Name", "Values": [gateway_name]}])
         assert result['InternetGateways']
         result = gateway.attach_to_vpc(VpcId='vpc-00000000001')
-        print(result)
         assert result['ResponseMetadata']

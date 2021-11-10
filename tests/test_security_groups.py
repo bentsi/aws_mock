@@ -1,16 +1,9 @@
-import unittest
 from unittest.mock import Mock, patch
 
-from aws_mock.main import app
+from tests.base import AwsMockTestCase
 
 
-class TestSecurityGroups(unittest.TestCase):
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['DEBUG'] = True
-        self.app = app.test_client()
-        self.base_url = '/'
-
+class TestSecurityGroups(AwsMockTestCase):
     @patch("aws_mock.lib.MongoClient")
     @patch("aws_mock.lib.getrandbits")
     def test_create_security_group(self, getrandbits: Mock, mongo: Mock) -> None:
@@ -22,8 +15,8 @@ class TestSecurityGroups(unittest.TestCase):
             "VpcId": "vpc-0b04728271b54803d",
         }
         getrandbits.return_value = 0x12345
-        with self.app as c:
-            response = c.post(self.base_url, data=request_body)
+        with self.app as client:
+            response = client.post(self.base_url, data=request_body)
         assert b"CreateSecurityGroupResponse" in response.data
         assert b"<return>true</return>" in response.data
         mongo().aws_mock["sg"].insert_one.assert_called_once_with({
@@ -40,8 +33,8 @@ class TestSecurityGroups(unittest.TestCase):
             "Filter.1.Value": "SCT-sg",
         }
         mongo().aws_mock["sg"].find.return_value = []
-        with self.app as c:
-            response = c.post(self.base_url, data=request_body)
+        with self.app as client:
+            response = client.post(self.base_url, data=request_body)
         assert b"</DescribeSecurityGroupsResponse>" in response.data
         assert b"</item>" not in response.data
         mongo().aws_mock["sg"].find.assert_called_once()
@@ -55,8 +48,8 @@ class TestSecurityGroups(unittest.TestCase):
             "Filter.1.Value": "SCT-sg",
         }
         mongo().aws_mock["sg"].find.return_value = [{"id": "sg-12345"}]
-        with self.app as c:
-            response = c.post(self.base_url, data=request_body)
+        with self.app as client:
+            response = client.post(self.base_url, data=request_body)
         assert b"</DescribeSecurityGroupsResponse>" in response.data
         assert b"<groupId>sg-12345</groupId>" in response.data
         assert b"<ipPermissions/>" in response.data
@@ -72,8 +65,8 @@ class TestSecurityGroups(unittest.TestCase):
             "Filter.1.Value": "SCT-sg",
         }
         mongo().aws_mock["sg"].find.return_value = [{"id": "sg-12345", "tags": {"tag1": "val1"}}]
-        with self.app as c:
-            response = c.post(self.base_url, data=request_body)
+        with self.app as client:
+            response = client.post(self.base_url, data=request_body)
         assert b"</DescribeSecurityGroupsResponse>" in response.data
         assert b"<groupId>sg-12345</groupId>" in response.data
         assert b"<ipPermissions/>" in response.data
@@ -91,8 +84,8 @@ class TestSecurityGroups(unittest.TestCase):
             "Filter.1.Value": "SCT-sg",
         }
         mongo().aws_mock["sg"].find.return_value = [{"id": "sg-12345", "is_ingress_rules_added": True}]
-        with self.app as c:
-            response = c.post(self.base_url, data=request_body)
+        with self.app as client:
+            response = client.post(self.base_url, data=request_body)
         assert b"</DescribeSecurityGroupsResponse>" in response.data
         assert b"<groupId>sg-12345</groupId>" in response.data
         assert b"<ipPermissions/>" not in response.data
@@ -206,7 +199,8 @@ class TestSecurityGroups(unittest.TestCase):
             "IpPermissions.15.IpRanges.1.CidrIp": "0.0.0.0/0",
             "IpPermissions.15.IpRanges.1.Description": "Allow Scylla Manager Agent version 2.1 Prometheus API for ALL",
             "IpPermissions.15.Ipv6Ranges.1.CidrIpv6": "::/0",
-            "IpPermissions.15.Ipv6Ranges.1.Description": "Allow Scylla Manager Agent version 2.1 Prometheus API for ALL",
+            "IpPermissions.15.Ipv6Ranges.1.Description":
+                "Allow Scylla Manager Agent version 2.1 Prometheus API for ALL",
             "IpPermissions.16.IpProtocol": "-1",
             "IpPermissions.16.IpRanges.1.CidrIp": "172.0.0.0/11",
             "IpPermissions.16.IpRanges.1.Description": "Allow traffic from Scylla Cloud lab while VPC peering for ALL",
@@ -240,8 +234,8 @@ class TestSecurityGroups(unittest.TestCase):
             "IpPermissions.20.Ipv6Ranges.1.Description": "Allow Scylla Manager pprof Debug For ALL",
         }
         mongo().aws_mock["sg"].find_one.return_value = {"_id": "MOCKED_ID", "id": "sg-12345"}
-        with self.app as c:
-            response = c.post(self.base_url, data=request_body)
+        with self.app as client:
+            response = client.post(self.base_url, data=request_body)
         assert b"</AuthorizeSecurityGroupIngressResponse>" in response.data
         assert b"<groupId>sg-12345</groupId>" in response.data
         mongo().aws_mock["sg"].update_one.assert_called_once_with(

@@ -1,18 +1,13 @@
-import unittest
 from unittest.mock import Mock, patch
 
-import boto3
 from bs4 import BeautifulSoup
 
-from aws_mock.main import app
+from tests.base import AwsMockTestCase
 
 
-class TestRunInstances(unittest.TestCase):
+class TestRunInstances(AwsMockTestCase):
     def setUp(self):
-        app.config['TESTING'] = True
-        app.config['DEBUG'] = True
-        self.app = app.test_client()
-        self.base_url = '/'
+        super().setUp()
         self.request_body = {
             "Action": "RunInstances",
             "Version": "2016-11-15",
@@ -53,11 +48,9 @@ class TestRunInstances(unittest.TestCase):
         mongo().aws_mock["i"].insert_one.assert_called_once()
         self.assertEqual(soup.instancesSet.item.imageId.text, self.request_body["ImageId"])
 
-    def test_with_boto3(self):
-        ec2 = boto3.resource("ec2", region_name="eu-north-1")
-        expected_image_id = 'ami-008c29ad053756fc9'
-        result = ec2.create_instances(ImageId=expected_image_id, MinCount=1, MaxCount=1)
+    def test_with_boto3(self):  # pylint: disable=no-self-use
+        expected_image_id = "ami-008c29ad053756fc9"
+        result = self.ec2_resource.create_instances(ImageId=expected_image_id, MinCount=1, MaxCount=1)
         assert len(result) == 1
         instance = result[0]
         assert instance.image_id == expected_image_id
-        print(result)

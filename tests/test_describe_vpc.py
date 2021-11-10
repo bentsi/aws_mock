@@ -1,16 +1,12 @@
-import unittest
 from unittest.mock import Mock, patch
 
-from aws_mock.main import app
+from tests.base import AwsMockTestCase
 
 
-class TestDescribeVpc(unittest.TestCase):
+class TestDescribeVpc(AwsMockTestCase):
     def setUp(self):
-        app.config['TESTING'] = True
-        app.config['DEBUG'] = True
-        self.app = app.test_client()
+        super().setUp()
         self.vpc_id = "vpc-12345"
-        self.base_url = '/'
         self.request_body = {
             "Action": "DescribeVpcs",
             "Version": "2016-11-15",
@@ -22,8 +18,8 @@ class TestDescribeVpc(unittest.TestCase):
     @patch("aws_mock.lib.MongoClient")
     def test_describe_vpc(self, mongo: Mock) -> None:
         collection = mongo().aws_mock["vpc"]
-        collection.find.return_value = [{"_id": "MOCKED_ID", "id": self.request_body["VpcId"]}]
-        with self.app as c:
-            response = c.post(self.base_url, data=self.request_body)
+        collection.find_one.return_value = {"_id": "MOCKED_ID", "id": self.request_body["VpcId"]}
+        with self.app as client:
+            response = client.post(self.base_url, data=self.request_body)
         assert b"cidrBlock" in response.data
         assert b"<vpcId>vpc-12345</vpcId>" in response.data

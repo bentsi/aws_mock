@@ -13,13 +13,13 @@ def run_instances(request_data: ImmutableMultiDict[str, str]) -> str:
         Doc: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html
     """
     num_instances = int(request_data["MaxCount"])
-    db = get_aws_mock_db()
+    aws_mock_db = get_aws_mock_db()
 
-    LOGGER.debug(f"Creating %s instances...", num_instances)
+    LOGGER.debug("Creating %s instances...", num_instances)
     items = []
     for _ in range(num_instances):
         instance_id = generate_resource_id(resource_type="i")
-        db[get_collection_name(instance_id)].insert_one({
+        aws_mock_db[get_collection_name(instance_id)].insert_one({
             "id": instance_id,
             "tags": extract_tags(request_data, prefix="TagSpecification.1."),
         })
