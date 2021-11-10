@@ -4,7 +4,11 @@ repos:
     hooks:
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
+    -   id: mixed-line-ending
+    -   id: check-merge-conflict
+    -   id: check-toml
     -   id: detect-aws-credentials
+        args: [--allow-missing-credentials]
 -   repo: https://github.com/pre-commit/mirrors-autopep8
     rev: v1.5.7
     hooks:
