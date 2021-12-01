@@ -1,9 +1,11 @@
 Flask==2.0.2
 requests==2.26.0
 uWSGI==2.0.20
-pymongo==3.12.1
+pymongo==4.0
 lxml==4.6.4
 beautifulsoup4==4.10.0
-boto3==1.20.2
-cryptography==35.0.0
-pylint==2.11.1
+boto3==1.20.17
+cryptography==36.0.0
+pylint==2.12.1
+pytest==6.2.5
+boto3-stubs[ec2,s3]==1.20.17

@@ -5,3 +5,11 @@ disable = [
     'missing-class-docstring',
     'missing-function-docstring',
 ]
+
+[tool.pylint.similarities]
+ignore-imports = true
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests which requires a running AWS Mock Service",
+]
