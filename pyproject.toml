@@ -1,3 +1,37 @@
+[tool.poetry]
+name = "aws_mock"
+version = "0.1.0"
+description = "Mock for AWS API"
+authors = [
+    "Bentsi Magidovich <bentsi@scylladb.com>",
+    "Dmitry Kropachev <dmitry.kropachev@scylladb.com>",
+    "Evgeniy Naydanov <evgeniy.naydanov@scylladb.com>",
+    "Fabio Gelcer <fabio@scylladb.com>",
+    "Ilya Rarov <ilya.rarov@scylladb.com>",
+    "Roy Dahan <roy@scylladb.com>",
+]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "2.0.2"
+requests = "2.26.0"
+uWSGI = "2.0.20"
+pymongo = "4.0.1"
+cryptography = "36.0.0"
+
+[tool.poetry.dev-dependencies]
+lxml = "4.7.1"
+beautifulsoup4 = "4.10.0"
+boto3 = "1.20.24"
+pylint = "2.12.2"
+pytest = "6.2.5"
+boto3-stubs = { version = "1.20.24", extras = ["ec2", "s3"] }
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.pylint.messages_control]
 max-line-length = 120
 disable = [

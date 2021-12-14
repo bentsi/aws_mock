@@ -7,16 +7,21 @@ Mock for AWS API.
 
 # Installation
 
-- It developed and tested on Debian-like OSes only
-- Make sure you have Python 3.10
-- Install the Python requirements from `requirements.txt`
-- You need Docker to build and run the server
-- You need OpenSSL' `openssl` binary for scripts
-- You need `boto3` module to run an example below
+## System requirements
 
-# Build `aws_mock` Docker image
+- It developed and tested on Debian-like OSes only
+- You need Docker to build and run the server
+- You need OpenSSL' `openssl` binary and GNU `sed` for scripts
+
+## Build `aws_mock` Docker image
 
     $ docker build -t aws_mock .
+
+## For development
+
+- Make sure you have Python 3.10
+- [Install Poetry](https://python-poetry.org/docs/#installation)
+- Install the Python requirements using poetry: `$ poetry install`
 
 # Run AWS mock server
 

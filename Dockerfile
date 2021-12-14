@@ -1,4 +1,4 @@
-FROM python:3.10.0-slim-bullseye as base
+FROM python:3.10.1-slim-bullseye as base
 
 FROM base as apt_base
 ENV DEBIAN_FRONTEND=noninteractive
@@ -11,9 +11,11 @@ RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/5.0 main" | 
 
 FROM apt_base as python_packages
 ENV PIP_NO_CACHE_DIR=1
-RUN apt-get install -qq --no-install-recommends build-essential
-ADD requirements.txt .
+RUN apt-get install -qq --no-install-recommends build-essential && \
+    pip install poetry
+ADD pyproject.toml poetry.lock ./
 RUN mkdir /build && \
+    poetry export -o requirements.txt && \
     pip install -r requirements.txt --root=/build --prefix=./ --ignore-installed --no-warn-script-location
 
 FROM scratch as files
