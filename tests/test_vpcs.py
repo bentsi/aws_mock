@@ -38,3 +38,20 @@ def test_describe_vpcs(run_query: RunQueryFunc, mongo: Mock) -> None:
     })
     assert b"cidrBlock" in response.data
     assert f"<vpcId>{VPC_ID}</vpcId>".encode("ascii") in response.data
+
+
+def test_modify_vpc_attribute(run_query: RunQueryFunc, mongo: Mock) -> None:
+    mongo().aws_mock["vpc"].find.return_value = [{
+        "_id": "MOCKED_ID",
+        "id": VPC_ID,
+        "tags": {},
+    }]
+    response = run_query({
+        "Action": "ModifyVpcAttribute",
+        "Version": "2016-11-15",
+        "MapPublicIpOnLaunch.Value": "true",
+        "VpcId": VPC_ID,
+    })
+    assert b"ModifyVpcAttributeResponse" in response.data
+    assert b"<return>true</return>" in response.data
+    mongo().aws_mock["vpc"].find.assert_not_called()

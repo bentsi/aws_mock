@@ -11,6 +11,7 @@ from aws_mock.requests.create_security_group import create_security_group
 from aws_mock.requests.create_subnet import create_subnet
 from aws_mock.requests.create_tags import create_tags
 from aws_mock.requests.create_vpc import create_vpc
+from aws_mock.requests.modify_vpc_attribute import modify_vpc_attribute
 from aws_mock.requests.describe_availability_zones import describe_availability_zones
 from aws_mock.requests.describe_images import describe_images
 from aws_mock.requests.describe_instances import describe_instances
@@ -91,6 +92,8 @@ def index():  # pylint: disable=too-many-return-statements
             return describe_subnets(subnet_name=request.form["Filter.1.Value.1"])
         case "ModifySubnetAttribute":
             return modify_subnet_attribute()
+        case "ModifyVpcAttribute":
+            return modify_vpc_attribute()
         case "CreateVpc":
             return create_vpc(
                 cidr_block=request.form["CidrBlock"],
